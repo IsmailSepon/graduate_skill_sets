@@ -13,7 +13,7 @@ class AppRoutes {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return const Dashboard();
+          return const Registration();//Dashboard();
         },
         routes: <RouteBase>[
           GoRoute(
