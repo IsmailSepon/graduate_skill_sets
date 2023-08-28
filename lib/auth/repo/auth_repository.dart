@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:gp/auth/model/university_model.dart';
 import 'package:gp/firestore/firestore_services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -52,8 +51,8 @@ class AuthRepository{
     }
   }
 
-   getUniversityList() async {
-    fireStoreService.getUniversityList();
+   Future<List<University>> getUniversityList() async {
+    return await fireStoreService.getUniversityList();
   }
 
 

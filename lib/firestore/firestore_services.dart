@@ -13,12 +13,15 @@ class FireStoreService{
 
   }
 
- Future<List<University>> getUniversityList() async {
+  getUniversityList() async {
+    CollectionReference universityCollection = FirebaseFirestore.instance.collection('university');
+
     List<University> uniList = [];
     QuerySnapshot querySnapshot = await universityCollection.get();
     for (var snapshot in querySnapshot.docs) {
       uniList.add(University.fromSnapshot(snapshot, snapshot.id));
     }
+    print('Unilist: $uniList');
     return uniList;
   }
 
