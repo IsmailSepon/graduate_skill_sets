@@ -1,14 +1,33 @@
+import 'dart:ffi';
+
+import 'package:aad_oauth/aad_oauth.dart';
+import 'package:aad_oauth/model/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:gp/auth/model/university_model.dart';
+import 'package:gp/firestore/firestore_services.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthRepository{
+  final FireStoreService fireStoreService = FireStoreService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final FirebaseDatabase database = FirebaseDatabase.instance;
+  final DatabaseReference _universityReference = FirebaseDatabase.instance.ref('gp').child('university');
+  CollectionReference collection = FirebaseFirestore.instance.collection('gp');
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final List<University> list = [];
   User? get currentUser => _auth.currentUser;
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
 
   // sign in with email and password
   Future signInWithEmailAndPassword(String email, String password) async {
-    print('test');
     try {
       final result = await _auth.signInWithEmailAndPassword(email: 'ismail@gmail.com', password: '123456789');
       // print('signInWithEmailAndPassword $email $password');
@@ -24,6 +43,7 @@ class AuthRepository{
     try {
       final result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       final user = result.user;
+      saveUser(user!);
       print('registerWithEmailAndPassword $email $password');
       return user;
     } catch (e) {
@@ -32,7 +52,28 @@ class AuthRepository{
     }
   }
 
-  // sign out
+   getUniversityList() async {
+    fireStoreService.getUniversityList();
+  }
+
+
+   addUniversity() {
+
+    // final List<University> list = [];
+    //
+    // University university = University(id: 1, name: 'Staffordshire University');
+    //
+    // list.add(university);
+    // list.add(university);
+    // list.add(university);
+    // list.add(university);
+    //
+    // print('addUniversity ${university.toJson()}' );
+    // _universityReference.push().set(university.toJson());
+
+
+  }
+
   Future signOut() async {
     try {
       return await _auth.signOut();
@@ -41,4 +82,6 @@ class AuthRepository{
       return null;
     }
   }
+
+  void saveUser(User user) {}
 }

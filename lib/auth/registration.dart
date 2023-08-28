@@ -23,23 +23,26 @@ class Registration extends StatelessWidget{
               child: Column(
                 children: [
                    const SizedBox(height: 20.0,),
-                  const TextField(
-                    decoration: InputDecoration(
+                  TextFormField(
+                    onChanged: (value) {  },
+                    decoration: const InputDecoration(
                       hintText: 'Enter your name',
                       labelText: 'Name',
                       border: OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 20.0,),
-                  const TextField(
-                    decoration: InputDecoration(
+                    TextFormField(
+                    onChanged: (value) {  },
+                    decoration:  InputDecoration(
                       hintText: 'Enter your email',
                       labelText: 'Email',
                       border: OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 20.0,),
-                  const TextField(
+                  TextFormField(
+                    onChanged: (value) {  },
                     decoration: InputDecoration(
                       hintText: 'Enter your password',
                       labelText: 'Password',
@@ -47,7 +50,8 @@ class Registration extends StatelessWidget{
                     ),
                   ),
                   const SizedBox(height: 20.0,),
-                  const TextField(
+                  TextFormField(
+                    onChanged: (value) {  },
                     decoration: InputDecoration(
                       hintText: 'Confirm your password',
                       labelText: 'Confirm Password',
@@ -57,7 +61,6 @@ class Registration extends StatelessWidget{
                   const SizedBox(height: 20.0,),
                   LongButton(
                     onPressed: (){
-                      print('Register');
                       context.read<GPAuthCubit>().register('ismail@gmail.com', '12345567788');
                     },
                     child: const Text('Register'),
