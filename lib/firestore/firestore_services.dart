@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:gp/auth/model/department_model.dart';
 import '../auth/model/university_model.dart';
@@ -6,8 +7,6 @@ import '../auth/model/university_model.dart';
 class FireStoreService{
   final FirebaseDatabase database = FirebaseDatabase.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference collection = FirebaseFirestore.instance.collection('gp');
-  CollectionReference universityCollection = FirebaseFirestore.instance.collection('university');
 
 
   addUniversity(){
@@ -36,6 +35,22 @@ class FireStoreService{
     }
     print('Unilist: $departmentList');
     return departmentList;
+  }
+
+  void storeInformation(User user, University uni, String department, String studentId, String dateOfBirth, String name) {
+
+    CollectionReference departmentCollection = FirebaseFirestore.instance.collection('student');
+    departmentCollection.doc(user.uid).set({
+      'name': name,
+      'email': user.email,
+      'university': uni.name,
+      'universityID': uni.id,
+      'department': department,
+      'studentId': studentId,
+      'dateOfBirth': dateOfBirth,
+    });
+
+
   }
 
 }

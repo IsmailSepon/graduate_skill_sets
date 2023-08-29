@@ -8,27 +8,36 @@ import 'auth_state.dart';
 class GPAuthCubit extends Cubit<AuthState> {
   final AuthRepository repository;
 
-GPAuthCubit({required this.repository}) : super(AuthState.initial());
-
+  GPAuthCubit({required this.repository}) : super(AuthState.initial());
 
   void updateSinglePropertyOnState(String key, dynamic value) {
-      emit(state.copySingleProperty(key, value));
+    emit(state.copySingleProperty(key, value));
     // emit(state.copyWith(name: value));
   }
 
+  Future<void> register() async {
+    emit(state.copySingleProperty('isLoading', true));
+    bool status = await repository.registerWithEmailAndPassword(
+        state.email,
+        state.password,
+        state.university,
+        state.department,
+        state.studentId,
+        state.dateOfBirth,
+        state.name);
 
-   Future<void> register(String email, String password) async {
-     // repository.registerWithEmailAndPassword(email, password);
-      repository.getUniversityList();
-   }
+    if (status) {
+      emit(state.copySingleProperty('isLoading', false));
 
-  // Future<void> getUniversityList() async {
-  //    var list = await repository.getUniversityList();
-  //    emit(state.copyWith(universityList : list));
-  // }
+    } else {
+      emit(state.copySingleProperty('isLoading', false));
+    }
+
+
+  }
 
   Future<void> login(String email, String password) async {
-     //emit(state.copyWith(status: AuthStatus.loading));
+    //emit(state.copyWith(status: AuthStatus.loading));
     // try {
     //   final user = await AuthRepository.login(email, password);
     //   emit(state.copyWith(user: user, status: AuthStatus.authenticated));

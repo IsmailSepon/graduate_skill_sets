@@ -11,20 +11,24 @@ class AuthState extends Equatable {
   final String studentId;
   final String courseName;
   final String password;
+  final bool isLoading;
 
-  const AuthState({
+
+  const AuthState( {
       this.email = '',
       this.dateOfBirth = '',
       this.university =  const University(name: '', id: ''),
       this.department = '',
       this.studentId = '',
       this.courseName = '',
-      this.password = '', this.name = '',});
+      this.password = '',
+    this.name = '',
+    this.isLoading = false,});
 
 
 
   @override
-  List<Object?> get props => [name, email, dateOfBirth, university, department, studentId, courseName, password];
+  List<Object?> get props => [name, email, dateOfBirth, university, department, studentId, courseName, password, isLoading];
 
   factory AuthState.initial() {
     return   const AuthState();
@@ -38,7 +42,12 @@ class AuthState extends Equatable {
     'courseName': courseName,
     'password': password,
     'name': name,
+    'isLoading': isLoading,
   };
+
+  get status => null;
+
+  // get isLoading => isLoading;
 
 
   AuthState copySingleProperty(String key, value) {
@@ -53,6 +62,7 @@ class AuthState extends Equatable {
       courseName: newMap['courseName'],
       password: newMap['password'],
       name: newMap['name'],
+      isLoading: newMap['isLoading'],
     );
   }
 }

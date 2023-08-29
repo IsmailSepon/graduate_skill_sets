@@ -11,24 +11,24 @@ import 'package:gp/firestore/firestore_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AuthRepository{
+class AuthRepository {
   final FireStoreService fireStoreService = FireStoreService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  final FirebaseDatabase database = FirebaseDatabase.instance;
-  final DatabaseReference _universityReference = FirebaseDatabase.instance.ref('gp').child('university');
-  CollectionReference collection = FirebaseFirestore.instance.collection('gp');
-
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final List<University> list = [];
-  User? get currentUser => _auth.currentUser;
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
-
+  //
+  // final FirebaseDatabase database = FirebaseDatabase.instance;
+  // final DatabaseReference _universityReference = FirebaseDatabase.instance.ref('gp').child('university');
+  // CollectionReference collection = FirebaseFirestore.instance.collection('gp');
+  //
+  // FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // final List<University> list = [];
+  // User? get currentUser => _auth.currentUser;
+  // Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   // sign in with email and password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      final result = await _auth.signInWithEmailAndPassword(email: 'ismail@gmail.com', password: '123456789');
+      final result = await _auth.signInWithEmailAndPassword(
+          email: 'ismail@gmail.com', password: '123456789');
       // print('signInWithEmailAndPassword $email $password');
       final user = result.user;
       return user;
@@ -38,26 +38,34 @@ class AuthRepository{
   }
 
   // register with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future<bool> registerWithEmailAndPassword(
+      String email,
+      String password,
+      University uni,
+      String department,
+      String studentId,
+      String dateOfBirth,
+      String name) async {
     try {
-      final result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      final result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       final user = result.user;
       saveUser(user!);
+      fireStoreService.storeInformation(
+          user, uni, department, studentId, dateOfBirth, name);
       print('registerWithEmailAndPassword $email $password');
-      return user;
+      return true;
     } catch (e) {
       print("Error: $e");
-      return null;
+      return false;
     }
   }
 
-   Future<List<University>> getUniversityList() async {
+  Future<List<University>> getUniversityList() async {
     return await fireStoreService.getUniversityList();
   }
 
-
-   addUniversity() {
-
+  addUniversity() {
     // final List<University> list = [];
     //
     // University university = University(id: 1, name: 'Staffordshire University');
@@ -69,8 +77,6 @@ class AuthRepository{
     //
     // print('addUniversity ${university.toJson()}' );
     // _universityReference.push().set(university.toJson());
-
-
   }
 
   Future signOut() async {
