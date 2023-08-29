@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -8,6 +9,7 @@ import 'package:gp/firestore/firestore_services.dart';
 import '../component/long_button.dart';
 import 'bloc/auth_cubit.dart';
 import 'bloc/auth_state.dart';
+import 'model/department_model.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -18,31 +20,21 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _department_controller = TextEditingController();
+  final TextEditingController _course_controller = TextEditingController();
 
    List<University> universityList = [];
-
-  // @override
-  // initState() async {
-  //   super.initState();
-  //   _initData();
-  // }
-  // Future<List<University>>? universityList;
+   List<Department> departmentList = [];
 
   @override
   void initState() {
     super.initState();
-    // universityList = FireStoreService().getUniversityList();
     _initData();
   }
+
   Future<void> _initData() async {
-    universityList.clear();
-    CollectionReference universityCollection = FirebaseFirestore.instance.collection('university');
-    QuerySnapshot querySnapshot = await universityCollection.get();
-    for (var snapshot in querySnapshot.docs) {
-      universityList.add(University.fromSnapshot(snapshot, snapshot.id));
-    }
-    print('Unilist: $universityList');
-    // return uniList;
+    FireStoreService fireStoreService = FireStoreService();
+    loadUniversity(fireStoreService);
   }
 
 
@@ -50,10 +42,9 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Login Page'),
+          title: const Text('Student Registration Page'),
         ),
         body: BlocBuilder<GPAuthCubit, AuthState>(builder: (context, state) {
-          context.read<GPAuthCubit>().getUniversityList();
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -63,10 +54,49 @@ class _RegistrationState extends State<Registration> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      print('Name: $value');
+                      context.read<GPAuthCubit>().updateSinglePropertyOnState('name', value);
+                    },
                     decoration: const InputDecoration(
                       hintText: 'Enter your name',
                       labelText: 'Name',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    readOnly: true,
+                    onChanged: (value) {
+                      print('Value: $value');
+                    },
+                    onTap: ()
+                    async {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext modalContext) {
+                          return Container(
+                            height: 200,
+                            color: Theme.of(context).colorScheme.background,
+                            child: CupertinoDatePicker(
+                              mode: CupertinoDatePickerMode.date,
+                              // initialDateTime: value,
+                              backgroundColor:
+                              CupertinoColors.systemBackground.resolveFrom(context),
+                              onDateTimeChanged: (DateTime value) {
+                                // onDateTimeChanged(value);
+
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your date of birth',
+                      labelText: 'Date of Birth',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -93,6 +123,32 @@ class _RegistrationState extends State<Registration> {
                     },
                     onSuggestionSelected: (suggestion) {
                       _controller.text = suggestion.name;
+
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      controller: _department_controller,
+                      decoration: const InputDecoration(
+                        labelText: 'Department',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    suggestionsCallback: (pattern) {
+                      return departmentList.where((university) => university.name
+                          .toLowerCase()
+                          .contains(pattern.toLowerCase()));
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(suggestion.name),
+                      );
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      _department_controller.text = suggestion.name;
                     },
                   ),
 
@@ -100,10 +156,12 @@ class _RegistrationState extends State<Registration> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    onChanged: (value) {},
+                    onChanged: (value) {
+
+                    },
                     decoration: const InputDecoration(
                       hintText: 'Enter your email',
-                      labelText: 'Email',
+                      labelText: 'University Email',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -111,32 +169,53 @@ class _RegistrationState extends State<Registration> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your University ID',
+                      labelText: 'University ID',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    onChanged: (value) {
+                    },
                     decoration: const InputDecoration(
                       hintText: 'Enter your password',
                       labelText: 'Password',
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  TextFormField(
-                    onChanged: (value) {},
-                    decoration: InputDecoration(
-                      hintText: 'Confirm your password',
-                      labelText: 'Confirm Password',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
+                  // const SizedBox(
+                  //   height: 20.0,
+                  // ),
+                  // TextFormField(
+                  //   onChanged: (value) {},
+                  //   decoration: InputDecoration(
+                  //     hintText: 'Confirm your password',
+                  //     labelText: 'Confirm Password',
+                  //     border: OutlineInputBorder(),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 20.0,
                   ),
                   LongButton(
+                   // isDisabled: state.name.isEmpty, //||
+                        // state.email.isEmpty ||
+                        // state.password.isEmpty ||
+                        // state.university.name.isEmpty ||
+                        // state.department.isEmpty ||
+                        // // state.dateOfBirth.isEmpty ||
+                        // state.studentId.isEmpty,
                     onPressed: () {
-                      context
-                          .read<GPAuthCubit>()
-                          .register('ismail@gmail.com', '12345567788');
+                      print('State: ${state.name}');
+                      // context
+                      //     .read<GPAuthCubit>()
+                      //     .register('ismail@gmail.com', '12345567788');
                     },
                     child: const Text('Register'),
                   ),
@@ -159,4 +238,18 @@ class _RegistrationState extends State<Registration> {
           );
         }));
   }
+
+  Future<void> loadUniversity(FireStoreService fireStoreService) async {
+    universityList.clear();
+    universityList = await fireStoreService.getUniversityList();
+    print('Unilist: $universityList');
+    loadDepartment(fireStoreService);
+  }
+
+  Future<void> loadDepartment(FireStoreService fireStoreService) async {
+    departmentList.clear();
+    departmentList = await fireStoreService.getDepartmentList();
+    print('Unilist: $departmentList');
+  }
+
 }

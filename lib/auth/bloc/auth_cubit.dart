@@ -11,16 +11,21 @@ class GPAuthCubit extends Cubit<AuthState> {
 GPAuthCubit({required this.repository}) : super(AuthState.initial());
 
 
+  void updateSinglePropertyOnState(String key, dynamic value) {
+      emit(state.copySingleProperty(key, value));
+    // emit(state.copyWith(name: value));
+  }
+
 
    Future<void> register(String email, String password) async {
      // repository.registerWithEmailAndPassword(email, password);
       repository.getUniversityList();
    }
 
-  Future<void> getUniversityList() async {
-     var list = await repository.getUniversityList();
-     emit(state.copyWith(universityList : list));
-  }
+  // Future<void> getUniversityList() async {
+  //    var list = await repository.getUniversityList();
+  //    emit(state.copyWith(universityList : list));
+  // }
 
   Future<void> login(String email, String password) async {
      //emit(state.copyWith(status: AuthStatus.loading));
