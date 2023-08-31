@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gp/auth/model/university_model.dart';
 import 'package:gp/firestore/firestore_services.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +24,6 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _department_controller = TextEditingController();
-  final TextEditingController _course_controller = TextEditingController();
 
   List<University> universityList = [];
   List<Department> departmentList = [];
@@ -48,7 +48,7 @@ class _RegistrationState extends State<Registration> {
         body: BlocBuilder<GPAuthCubit, AuthState>(builder: (context, state) {
           return SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
                   const SizedBox(
@@ -234,7 +234,9 @@ class _RegistrationState extends State<Registration> {
                     children: [
                       const Text('Already have an account?'),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.go('/login');
+                        },
                         child: const Text('Login'),
                       ),
                     ],

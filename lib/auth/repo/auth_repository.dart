@@ -65,19 +65,6 @@ class AuthRepository {
     return await fireStoreService.getUniversityList();
   }
 
-  addUniversity() {
-    // final List<University> list = [];
-    //
-    // University university = University(id: 1, name: 'Staffordshire University');
-    //
-    // list.add(university);
-    // list.add(university);
-    // list.add(university);
-    // list.add(university);
-    //
-    // print('addUniversity ${university.toJson()}' );
-    // _universityReference.push().set(university.toJson());
-  }
 
   Future signOut() async {
     try {
@@ -89,4 +76,11 @@ class AuthRepository {
   }
 
   void saveUser(User user) {}
+
+  login(String email, String password) async {
+    final result = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    final user = result.user;
+    saveUser(user!);
+  }
 }

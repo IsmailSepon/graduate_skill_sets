@@ -28,7 +28,7 @@ class GPAuthCubit extends Cubit<AuthState> {
 
     if (status) {
       emit(state.copySingleProperty('isLoading', false));
-
+      //go for dashboard
     } else {
       emit(state.copySingleProperty('isLoading', false));
     }
@@ -36,7 +36,10 @@ class GPAuthCubit extends Cubit<AuthState> {
 
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login() async {
+
+    emit(state.copySingleProperty('isLoading', true));
+    bool status = await repository.login(state.email, state.password);
     //emit(state.copyWith(status: AuthStatus.loading));
     // try {
     //   final user = await AuthRepository.login(email, password);
