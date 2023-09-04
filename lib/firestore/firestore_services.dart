@@ -21,7 +21,6 @@ class FireStoreService{
     for (var snapshot in querySnapshot.docs) {
       uniList.add(University.fromSnapshot(snapshot, snapshot.id));
     }
-    print('Unilist: $uniList');
     return uniList;
   }
 
@@ -33,7 +32,6 @@ class FireStoreService{
     for (var snapshot in querySnapshot.docs) {
       departmentList.add(Department.fromSnapshot(snapshot, snapshot.id));
     }
-    print('Unilist: $departmentList');
     return departmentList;
   }
 

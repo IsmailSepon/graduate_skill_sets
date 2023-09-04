@@ -37,6 +37,7 @@ class LoginPage extends StatelessWidget{
                                 .read<GPAuthCubit>()
                                 .updateSinglePropertyOnState('email', value);
                           },
+                          keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
                             hintText: 'Enter your email',
                             labelText: 'University Email',
@@ -50,8 +51,9 @@ class LoginPage extends StatelessWidget{
                           onChanged: (value) {
                             context
                                 .read<GPAuthCubit>()
-                                .updateSinglePropertyOnState('email', value);
+                                .updateSinglePropertyOnState('password', value);
                           },
+                          keyboardType: TextInputType.visiblePassword,
                           decoration: const InputDecoration(
                             hintText: 'Enter your password',
                             labelText: 'Password',

@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gp/auth/login.dart';
-import 'package:gp/auth/registration.dart';
+import 'package:gp/component/app_theme.dart';
 import 'package:gp/dashboard/profile/profile.dart';
-import 'package:intl/intl.dart';
 
 import 'home/home_page.dart';
 
@@ -41,9 +40,11 @@ class _DashboardState extends State<Dashboard> {
         //   title: Text(DateFormat('dd-MMMM').format(DateTime.now())),
         // ),
         body: _pages[_selectedIndex],
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton:
+        FloatingActionButton(
           onPressed: () {
             // Add your onPressed code here!
+            _openPopup(context);
           },
           backgroundColor: Colors.green,
           child: const Icon(Icons.add),
@@ -98,6 +99,50 @@ class _DashboardState extends State<Dashboard> {
     } else {
       // User is not logged in, navigate to login screen
       return const LoginPage();
+    }
+  }
+
+  void _openPopup(BuildContext context) {
+    final RenderBox fabRenderBox = context.findRenderObject() as RenderBox;
+
+    final Offset fabOffset = fabRenderBox.localToGlobal(
+      Offset(fabRenderBox.size.width / 2, fabRenderBox.size.height/2),
+    );
+    showMenu(
+      context: context,
+      position:
+      RelativeRect.fromLTRB(
+         fabOffset.dx - 110.0, // Adjust this value for horizontal positioning
+        fabOffset.dy + getPositioningValue(context), // Adjust this value for vertical positioning
+        fabOffset.dx - 10.0, // Adjust this value for horizontal positioning
+        fabOffset.dy -90, // Adjust this value for vertical positioning
+      ),
+      items: <PopupMenuItem<String>>[
+        const PopupMenuItem<String>(
+          value: 'option1 option1 option1',
+          child: Text('Add new Skill'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'option1',
+          child: Text('Send a Validation Request'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'option2',
+          child: Text('Option 2'),
+        ),
+      ],
+    );
+  }
+
+  num getPositioningValue(BuildContext context) {
+    if (AppThemes.isTablet) {
+      return 0;
+    } else if (Orientation.landscape == MediaQuery
+        .of(context)
+        .orientation) {
+      return 0;
+    } else {
+      return 160;
     }
   }
 }

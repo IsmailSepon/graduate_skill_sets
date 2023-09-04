@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -186,6 +184,7 @@ class _RegistrationState extends State<Registration> {
                           .read<GPAuthCubit>()
                           .updateSinglePropertyOnState('studentId', value);
                     },
+                    keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       hintText: 'Enter your University ID',
                       labelText: 'University ID',
@@ -201,6 +200,7 @@ class _RegistrationState extends State<Registration> {
                           .read<GPAuthCubit>()
                           .updateSinglePropertyOnState('password', value);
                     },
+                    keyboardType: TextInputType.visiblePassword,
                     decoration: const InputDecoration(
                       hintText: 'Enter your password',
                       labelText: 'Password',
