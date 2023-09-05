@@ -41,7 +41,7 @@ class LongButton extends StatelessWidget {
                 onPressed: loading ? null : onPressed,
                 color: getColor,
                 child: loading
-                    ? SpinKitCircle(
+                    ? const SpinKitCircle(
                         size: 20,
                         color: Colors.white,
                       )

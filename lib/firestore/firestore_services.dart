@@ -3,18 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:gp/auth/model/department_model.dart';
 import '../auth/model/university_model.dart';
+import '../dashboard/skill/model/skill.dart';
 
-class FireStoreService{
+class FireStoreService {
   final FirebaseDatabase database = FirebaseDatabase.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
 
-
-  addUniversity(){
-
-  }
+  addUniversity() {}
 
   getUniversityList() async {
-    CollectionReference universityCollection = FirebaseFirestore.instance.collection('university');
+    CollectionReference universityCollection =
+        FirebaseFirestore.instance.collection('university');
 
     List<University> uniList = [];
     QuerySnapshot querySnapshot = await universityCollection.get();
@@ -25,7 +25,8 @@ class FireStoreService{
   }
 
   getDepartmentList() async {
-    CollectionReference departmentCollection = FirebaseFirestore.instance.collection('department');
+    CollectionReference departmentCollection =
+        FirebaseFirestore.instance.collection('department');
 
     List<Department> departmentList = [];
     QuerySnapshot querySnapshot = await departmentCollection.get();
@@ -35,9 +36,10 @@ class FireStoreService{
     return departmentList;
   }
 
-  void storeInformation(User user, University uni, String department, String studentId, String dateOfBirth, String name) {
-
-    CollectionReference departmentCollection = FirebaseFirestore.instance.collection('student');
+  void storeInformation(User user, University uni, String department,
+      String studentId, String dateOfBirth, String name) {
+    CollectionReference departmentCollection =
+        FirebaseFirestore.instance.collection('student');
     departmentCollection.doc(user.uid).set({
       'name': name,
       'email': user.email,
@@ -47,8 +49,23 @@ class FireStoreService{
       'studentId': studentId,
       'dateOfBirth': dateOfBirth,
     });
-
-
   }
 
+  bool sendValidation(
+      String courseName,
+      String courseLeaderMail,
+      String courseLecturerMail,
+      String additionalMessage,
+      String courseWork,
+      String project) {
+    Skill skill = Skill(courseName, 0, false, courseName, courseLeaderMail,
+        courseLecturerMail, additionalMessage, '', courseWork, '', project, '');
+
+    CollectionReference departmentCollection =
+        FirebaseFirestore.instance.collection('student');
+    departmentCollection.doc(uid).collection('skills').add(skill.toJson());
+
+    return true;
+    // stream: FirebaseFirestore.instance.collection('student').doc(uid).collection('skills').snapshots(),
+  }
 }

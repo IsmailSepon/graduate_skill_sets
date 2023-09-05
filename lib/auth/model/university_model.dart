@@ -12,7 +12,7 @@ class University extends Equatable{
    });
 
   @override
-  List<Object?> get props =>[name];
+  List<Object?> get props =>[name, id];
 
 
   static University fromSnapshot(DocumentSnapshot snap, String id) {
@@ -26,15 +26,5 @@ class University extends Equatable{
 
   University.fromJson(Map<String, dynamic> json, this.id )
       : name = json['name'];
-
-
-  static List<University> universityList = [
-      University(name: 'Staffordshire University', id: '1'),
-      University(name: 'Manchester University', id: '2'),
-      University(name: 'birmingham University', id: '3'),
-      University(name: 'Coventry University', id: '4'),
-  ];
-
-
 
 }

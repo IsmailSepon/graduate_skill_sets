@@ -13,48 +13,56 @@ class AuthState extends Equatable {
   final String password;
   final bool isLoading;
 
-
-  const AuthState( {
-      this.email = '',
-      this.dateOfBirth = '',
-      this.university =  const University(name: '', id: ''),
-      this.department = '',
-      this.studentId = '',
-      this.courseName = '',
-      this.password = '',
+  const AuthState({
+    this.email = '',
+    this.dateOfBirth = '',
+    this.university = const University(name: '', id: ''),
+    this.department = '',
+    this.studentId = '',
+    this.courseName = '',
+    this.password = '',
     this.name = '',
-    this.isLoading = false,});
-
-
+    this.isLoading = false,
+  });
 
   @override
-  List<Object?> get props => [name, email, dateOfBirth, university, department, studentId, courseName, password, isLoading];
+  List<Object?> get props => [
+        name,
+        email,
+        dateOfBirth,
+        university,
+        department,
+        studentId,
+        courseName,
+        password,
+        isLoading
+      ];
 
   factory AuthState.initial() {
-    return   const AuthState();
+    return const AuthState();
   }
+
   get _toMap => {
-    'email': email,
-    'dateOfBirth': dateOfBirth,
-    'university': university,
-    'department': department,
-    'studentId': studentId,
-    'courseName': courseName,
-    'password': password,
-    'name': name,
-    'isLoading': isLoading,
-  };
+        'email': email,
+        'dateOfBirth': dateOfBirth,
+        'university': university,
+        'department': department,
+        'studentId': studentId,
+        'courseName': courseName,
+        'password': password,
+        'name': name,
+        'isLoading': isLoading,
+      };
 
   get status => null;
 
   // get isLoading => isLoading;
 
-
   AuthState copySingleProperty(String key, value) {
     var newMap = _toMap;
     newMap[key] = value;
-    return  AuthState(
-      email : newMap['email'],
+    return AuthState(
+      email: newMap['email'],
       dateOfBirth: newMap['dateOfBirth'],
       university: newMap['university'],
       department: newMap['department'],
@@ -66,4 +74,3 @@ class AuthState extends Equatable {
     );
   }
 }
-

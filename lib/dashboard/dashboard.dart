@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gp/auth/login.dart';
 import 'package:gp/component/app_theme.dart';
 import 'package:gp/dashboard/profile/profile.dart';
@@ -118,18 +119,30 @@ class _DashboardState extends State<Dashboard> {
         fabOffset.dy -90, // Adjust this value for vertical positioning
       ),
       items: <PopupMenuItem<String>>[
-        const PopupMenuItem<String>(
-          value: 'option1 option1 option1',
-          child: Text('Add new Skill'),
+        PopupMenuItem(
+          value: '1',
+          child: const Text('Add new Skill'),
+          onTap: (){
+            context.go('/addSkill');
+          },
         ),
-        const PopupMenuItem<String>(
-          value: 'option1',
-          child: Text('Send a Validation Request'),
+        PopupMenuItem(
+          value: '2',
+          child: const Text('Send a Validation Request'),
+          onTap: (){
+
+            print('Add new Skill2');
+          },
         ),
-        const PopupMenuItem<String>(
-          value: 'option2',
-          child: Text('Option 2'),
+        PopupMenuItem(
+          value: '3',
+          child: const Text('Option 2'),
+          onTap: (){
+
+            print('Add new Skill 3');
+          },
         ),
+
       ],
     );
   }
