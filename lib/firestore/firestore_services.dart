@@ -8,7 +8,7 @@ import '../dashboard/skill/model/skill.dart';
 class FireStoreService {
   final FirebaseDatabase database = FirebaseDatabase.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final uid = FirebaseAuth.instance.currentUser!.uid;
+
 
   addUniversity() {}
 
@@ -58,6 +58,10 @@ class FireStoreService {
       String additionalMessage,
       String courseWork,
       String project, String courseLeaderName) {
+
+
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
     Skill skill = Skill(courseName, 0, false, courseName, courseLeaderMail,
         courseLecturerMail, additionalMessage, '', courseWork, '', project, '', courseLeaderName);
 

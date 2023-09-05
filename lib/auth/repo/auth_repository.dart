@@ -1,15 +1,7 @@
-import 'dart:ffi';
 
-import 'package:aad_oauth/aad_oauth.dart';
-import 'package:aad_oauth/model/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:gp/auth/model/university_model.dart';
 import 'package:gp/firestore/firestore_services.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthRepository {
   final FireStoreService fireStoreService = FireStoreService();
@@ -49,7 +41,10 @@ class AuthRepository {
     try {
       final result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      final user = result.user;
+       var user = result.user;
+       // user.displayName = name;
+      await user?.updateDisplayName(name);
+
       saveUser(user!);
       fireStoreService.storeInformation(
           user, uni, department, studentId, dateOfBirth, name);
