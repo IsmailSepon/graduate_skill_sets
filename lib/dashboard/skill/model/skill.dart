@@ -6,6 +6,7 @@ class Skill extends Equatable {
   final bool verifyStatus; //teacher
   final String courseName; //student
   final String courseLeaderMail; //student
+  final String courseLeaderName; //student
   final String courseLecturerMail; //student
   final String additionalMessage; //student
   final String courseID; //student
@@ -26,7 +27,7 @@ class Skill extends Equatable {
       this.courseWork,
       this.resource,
       this.project,
-      this.examResult);
+      this.examResult, this.courseLeaderName);
 
   static Skill fromJson(Map<String, dynamic> json, String id) {
     Skill skill = Skill(
@@ -42,11 +43,12 @@ class Skill extends Equatable {
       json['resource'],
       json['project'],
       json['examResult'],
+      json['courseLeaderName'],
     );
     return skill;
   }
 
-  static Skill fromSnapshot(Map<String, dynamic> snap, String id) {
+  static Skill fromSnapshot(Map<String, dynamic> snap) {
     Skill skill = Skill(
       snap['name'],
       snap['score'],
@@ -60,6 +62,7 @@ class Skill extends Equatable {
       snap['resource'],
       snap['project'],
       snap['examResult'],
+      snap['courseLeaderName'],
     );
     return skill;
   }
@@ -78,6 +81,7 @@ class Skill extends Equatable {
       'resource': skill.resource,
       'project': skill.project,
       'examResult': skill.examResult,
+      'courseLeaderName': skill.courseLeaderName,
     };
     return data;
   }
@@ -95,7 +99,8 @@ class Skill extends Equatable {
         courseWork,
         resource,
         project,
-        examResult
+        examResult,
+        courseLeaderName
       ];
 
   Map<String, dynamic> toJson() {
@@ -112,6 +117,7 @@ class Skill extends Equatable {
       'resource': resource,
       'project': project,
       'examResult': examResult,
+      'courseLeaderName': courseLeaderName,
     };
   }
 

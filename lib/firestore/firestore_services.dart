@@ -57,9 +57,9 @@ class FireStoreService {
       String courseLecturerMail,
       String additionalMessage,
       String courseWork,
-      String project) {
+      String project, String courseLeaderName) {
     Skill skill = Skill(courseName, 0, false, courseName, courseLeaderMail,
-        courseLecturerMail, additionalMessage, '', courseWork, '', project, '');
+        courseLecturerMail, additionalMessage, '', courseWork, '', project, '', courseLeaderName);
 
     CollectionReference departmentCollection =
         FirebaseFirestore.instance.collection('student');

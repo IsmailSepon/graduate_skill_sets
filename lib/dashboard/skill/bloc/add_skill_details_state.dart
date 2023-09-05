@@ -8,6 +8,7 @@ class AddSkillDetailsState extends Equatable {
   final String additionalMessage;
   final String courseWork;
   final String project;
+  final String courseLeaderName;
 
   const AddSkillDetailsState({
     this.isLoading = false,
@@ -17,6 +18,7 @@ class AddSkillDetailsState extends Equatable {
     this.additionalMessage = '',
     this.courseWork = '',
     this.project = '',
+    this.courseLeaderName = '',
   });
 
   @override
@@ -27,7 +29,8 @@ class AddSkillDetailsState extends Equatable {
         additionalMessage,
         courseLecturerMail,
         courseWork,
-        project
+        project,
+        courseLeaderName
       ];
 
   factory AddSkillDetailsState.initial() {
@@ -42,7 +45,9 @@ class AddSkillDetailsState extends Equatable {
         'isLoading': isLoading,
         'courseWork': courseWork,
         'project': project,
+        'courseLeaderName': courseLeaderName,
       };
+
 
   AddSkillDetailsState copySingleProperty(String key, value) {
     var newMap = _toMap;
@@ -55,6 +60,7 @@ class AddSkillDetailsState extends Equatable {
       additionalMessage: newMap['additionalMessage'],
       courseWork: newMap['courseWork'],
       project: newMap['project'],
+      courseLeaderName: newMap['courseLeaderName'],
     );
   }
 }

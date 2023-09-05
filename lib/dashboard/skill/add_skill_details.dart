@@ -50,6 +50,22 @@ class AddSkillDetails extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
+
+                TextFormField(
+                  onChanged: (value) {
+                    context
+                        .read<AddSkillDetailsCubit>()
+                        .updateSinglePropertyOnState('courseLeaderName', value);
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Enter your Course Leader name',
+                    labelText: 'Course Leader name',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
                 TextFormField(
                   onChanged: (value) {
                     context
@@ -133,7 +149,7 @@ class AddSkillDetails extends StatelessWidget {
                     print('${state.courseName}- ${state.courseLecturerMail}- ${state.courseLeaderMail} -${state.additionalMessage}- ${state.courseWork} -${state.project}');
                     context
                         .read<AddSkillDetailsCubit>()
-                        .sendValidationRequest();
+                        .sendValidationRequest(context);
                   },
                   child: const Text('Send Verification request'),
                 ),

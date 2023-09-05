@@ -47,7 +47,7 @@ class _DashboardState extends State<Dashboard> {
             // Add your onPressed code here!
             _openPopup(context);
           },
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blue,
           child: const Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
