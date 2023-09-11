@@ -1,0 +1,263 @@
+@startuml
+set namespaceSeparator ::
+
+class "gp::firestore::firestore_services.dart::FireStoreService" {
+  +FirebaseDatabase database
+  +FirebaseFirestore firestore
+  +dynamic addUniversity()
+  +dynamic getUniversityList()
+  +dynamic getDepartmentList()
+  +void storeInformation()
+  +bool sendValidation()
+}
+
+"gp::firestore::firestore_services.dart::FireStoreService" o-- "firebase_database::firebase_database.dart::FirebaseDatabase"
+"gp::firestore::firestore_services.dart::FireStoreService" o-- "cloud_firestore::cloud_firestore.dart::FirebaseFirestore"
+
+class "gp::auth::login.dart::LoginPage" {
+  +Widget build()
+}
+
+'"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "gp::auth::login.dart::LoginPage"
+
+class "gp::auth::model::course_model.dart::Course" {
+  +String name
+  +String id
+  +List<Object?> props
+  {static} +Course fromSnapshot()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "gp::auth::model::course_model.dart::Course"
+
+class "gp::auth::model::university_model.dart::University" {
+  +String name
+  +String id
+  +List<Object?> props
+  {static} +University fromSnapshot()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "gp::auth::model::university_model.dart::University"
+
+class "gp::auth::model::department_model.dart::Department" {
+  +String name
+  +String id
+  +List<Object?> props
+  {static} +Department fromSnapshot()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "gp::auth::model::department_model.dart::Department"
+
+class "gp::auth::model::student_auth_mode::student_auth_model.dart::StudentAuthModel" {
+  +String email
+  +String name
+  +String dateOfBirth
+  +University university
+  +String department
+  +String studentId
+  +String courseName
+  +String password
+  +List<Object?> props
+}
+
+"gp::auth::model::student_auth_mode::student_auth_model.dart::StudentAuthModel" o-- "gp::auth::model::university_model.dart::University"
+"equatable::src::equatable.dart::Equatable" <|-- "gp::auth::model::student_auth_mode::student_auth_model.dart::StudentAuthModel"
+
+class "gp::auth::registration.dart::Registration" {
+  +State<Registration> createState()
+}
+
+'"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "gp::auth::registration.dart::Registration"
+
+class "gp::auth::registration.dart::_RegistrationState" {
+  -TextEditingController _controller
+  -TextEditingController _department_controller
+  +List<University> universityList
+  +List<Department> departmentList
+  +void initState()
+  -dynamic _initData()
+  +Widget build()
+  +dynamic loadUniversity()
+  +dynamic loadDepartment()
+}
+
+'"gp::auth::registration.dart::_RegistrationState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+'"flutter::src::widgets::framework.dart::State" <|-- "gp::auth::registration.dart::_RegistrationState"
+'
+'class "gp::auth::test.dart::AutocompleteExample" {
+'  +_AutocompleteExampleState createState()
+'}
+'
+'"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "gp::auth::test.dart::AutocompleteExample"
+'
+'class "gp::auth::test.dart::_AutocompleteExampleState" {
+'  -TextEditingController _controller
+'  -List<String> _suggestions
+'  +Widget build()
+'}
+'
+'"gp::auth::test.dart::_AutocompleteExampleState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+'"flutter::src::widgets::framework.dart::State" <|-- "gp::auth::test.dart::_AutocompleteExampleState"
+
+class "gp::auth::repo::auth_repository.dart::AuthRepository" {
+  +FireStoreService fireStoreService
+  -FirebaseAuth _auth
+  +dynamic signInWithEmailAndPassword()
+  +dynamic registerWithEmailAndPassword()
+  +dynamic getUniversityList()
+  +dynamic signOut()
+  +void saveUser()
+  +dynamic login()
+}
+
+"gp::auth::repo::auth_repository.dart::AuthRepository" o-- "gp::firestore::firestore_services.dart::FireStoreService"
+"gp::auth::repo::auth_repository.dart::AuthRepository" o-- "firebase_auth::firebase_auth.dart::FirebaseAuth"
+
+class "gp::auth::bloc::auth_cubit.dart::GPAuthCubit" {
+  +AuthRepository repository
+  +void updateSinglePropertyOnState()
+  +dynamic register()
+  +dynamic login()
+  +dynamic logout()
+}
+
+"gp::auth::bloc::auth_cubit.dart::GPAuthCubit" o-- "gp::auth::repo::auth_repository.dart::AuthRepository"
+"bloc::src::cubit.dart::Cubit" <|-- "gp::auth::bloc::auth_cubit.dart::GPAuthCubit"
+
+class "gp::auth::bloc::auth_state.dart::AuthState" {
+  +String email
+  +String name
+  +String dateOfBirth
+  +University university
+  +String department
+  +String studentId
+  +String courseName
+  +String password
+  +bool isLoading
+  +List<Object?> props
+  -dynamic _toMap
+  +dynamic status
+  +AuthState copySingleProperty()
+}
+
+"gp::auth::bloc::auth_state.dart::AuthState" o-- "gp::auth::model::university_model.dart::University"
+"equatable::src::equatable.dart::Equatable" <|-- "gp::auth::bloc::auth_state.dart::AuthState"
+
+class "gp::main.dart::MyApp" {
+  +Widget build()
+}
+
+'"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "gp::main.dart::MyApp"
+'
+'class "gp::dashboard::home::home_page.dart::HomePage" {
+'  +Widget build()
+'}
+'
+'"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "gp::dashboard::home::home_page.dart::HomePage"
+'
+'class "gp::dashboard::home::home_page.dart::SkillsListView" {
+'  +Widget build()
+'}
+'
+'"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "gp::dashboard::home::home_page.dart::SkillsListView"
+
+class "gp::dashboard::skill::model::skill.dart::Skill" {
+  +String name
+  +int score
+  +bool verifyStatus
+  +String courseName
+  +String courseLeaderMail
+  +String courseLeaderName
+  +String courseLecturerMail
+  +String additionalMessage
+  +String courseID
+  +String courseWork
+  +String resource
+  +String project
+  +String examResult
+  +List<Object?> props
+  {static} +Skill fromJson()
+  {static} +Skill fromSnapshot()
+  {static} +dynamic skillToJson()
+  +Map<String, dynamic> toJson()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "gp::dashboard::skill::model::skill.dart::Skill"
+
+class "gp::dashboard::skill::add_skill.dart::AddSkill" {
+  +Widget build()
+}
+
+'"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "gp::dashboard::skill::add_skill.dart::AddSkill"
+
+class "gp::dashboard::skill::bloc::add_skill_details_state.dart::AddSkillDetailsState" {
+  +bool isLoading
+  +String courseName
+  +String courseLeaderMail
+  +String courseLecturerMail
+  +String additionalMessage
+  +String courseWork
+  +String project
+  +String courseLeaderName
+  +List<Object?> props
+  -dynamic _toMap
+  +AddSkillDetailsState copySingleProperty()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "gp::dashboard::skill::bloc::add_skill_details_state.dart::AddSkillDetailsState"
+
+class "gp::dashboard::skill::bloc::add_skill_cubit.dart::AddSkillDetailsCubit" {
+  +void updateSinglePropertyOnState()
+  +dynamic sendValidationRequest()
+  +dynamic sendEmailToCourseLeader()
+}
+
+"bloc::src::cubit.dart::Cubit" <|-- "gp::dashboard::skill::bloc::add_skill_cubit.dart::AddSkillDetailsCubit"
+
+class "gp::dashboard::skill::add_skill_details.dart::AddSkillDetails" {
+  +String? skillID
+  +String? skillName
+  +Widget build()
+}
+
+'"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "gp::dashboard::skill::add_skill_details.dart::AddSkillDetails"
+'
+'class "gp::dashboard::dashboard.dart::Dashboard" {
+'  +State<Dashboard> createState()
+'}
+'
+'"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "gp::dashboard::dashboard.dart::Dashboard"
+'
+'class "gp::dashboard::dashboard.dart::_DashboardState" {
+'  -int _selectedIndex
+'  -List<Widget> _pages
+'  -void _onItemTapped()
+'  +Widget build()
+'  -void _openPopup()
+'  +num getPositioningValue()
+'}
+'
+'"flutter::src::widgets::framework.dart::State" <|-- "gp::dashboard::dashboard.dart::_DashboardState"
+'
+'class "gp::dashboard::profile::profile.dart::Profile" {
+'  +Widget build()
+'}
+'
+'"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "gp::dashboard::profile::profile.dart::Profile"
+'
+'class "gp::routes::app_routes.dart::AppRoutes" {
+'  {static} +GoRouter router
+'}
+
+"gp::routes::app_routes.dart::AppRoutes" o-- "go_router::src::router.dart::GoRouter"
+
+'abstract class "gp::base::base_state.dart::BaseState" {
+'  +bool isLoading
+'  +List<dynamic> additionalProps
+'  +List<Object?> props
+'  +Type copyWith()
+'}
+'
+'"equatable::src::equatable.dart::Equatable" <|-- "gp::base::base_state.dart::BaseState"
+'
+
+@enduml

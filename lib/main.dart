@@ -5,6 +5,7 @@ import 'package:gp/auth/repo/auth_repository.dart';
 import 'package:gp/routes/app_routes.dart';
 import 'auth/bloc/auth_cubit.dart';
 import 'firebase_options.dart';
+import 'package:dcdg/dcdg.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

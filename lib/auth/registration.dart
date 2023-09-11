@@ -41,7 +41,7 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Student Registration Page'),
+          title: const Text('Teacher Registration Page'),
         ),
         body: BlocBuilder<GPAuthCubit, AuthState>(builder: (context, state) {
           return SingleChildScrollView(

@@ -128,15 +128,15 @@ class _DashboardState extends State<Dashboard> {
         ),
         PopupMenuItem(
           value: '2',
-          child: const Text('Send a Validation Request'),
+          child: const Text('Set/Edit your Carrier Goal'),
           onTap: (){
 
-            print('Add new Skill2');
+            print('Build your Resume');
           },
         ),
         PopupMenuItem(
           value: '3',
-          child: const Text('Option 2'),
+          child: const Text('Build your Resume'),
           onTap: (){
 
             print('Add new Skill 3');
