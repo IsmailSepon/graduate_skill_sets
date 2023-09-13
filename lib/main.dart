@@ -5,12 +5,13 @@ import 'package:gp/auth/repo/auth_repository.dart';
 import 'package:gp/routes/app_routes.dart';
 import 'auth/bloc/auth_cubit.dart';
 import 'firebase_options.dart';
-import 'package:dcdg/dcdg.dart';
+import 'package:dcdg/dcdg.dart';//this flowchart diagram
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

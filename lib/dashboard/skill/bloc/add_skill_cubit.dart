@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/skill/bloc/add_skill_details_state.dart';
+import 'package:gp/firebaseDynamicLink/firebase_fynamic_link_service.dart';
 import 'package:gp/firestore/firestore_services.dart';
+
+import '../model/validation_request.dart';
 
 class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
   AddSkillDetailsCubit(super.initialState);
@@ -16,16 +19,23 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
   Future<void> sendValidationRequest(BuildContext context) async {
     // final uid = FirebaseAuth.instance.currentUser!.uid;
     emit(state.copySingleProperty('isLoading', true));
-    await FireStoreService().sendValidation(
+    FireStoreService().sendValidation(
         state.courseName,
         state.courseLeaderMail,
         state.courseLecturerMail,
         state.additionalMessage,
         state.courseWork,
-        state.project
-        , state.courseLeaderName);
+        state.project,
+        state.courseLeaderName);
 
     await sendEmailToCourseLeader();
+
+    // var validation = ValidationRequest(
+    //   FirebaseAuth.instance.currentUser!.uid,
+    //   'test12313423',
+    // );
+    // FirebaseDynamicLinkService.generateValidationRequest(validation).then((value) => print('Link: $value'));
+    //
 
 
     context.go('/');

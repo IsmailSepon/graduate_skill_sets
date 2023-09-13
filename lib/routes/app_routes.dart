@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gp/dashboard/validation/skill_validation.dart';
 import '../auth/login.dart';
 import '../auth/registration.dart';
 import '../dashboard/dashboard.dart';
 import '../dashboard/skill/add_skill.dart';
 import '../dashboard/skill/add_skill_details.dart';
+import '../firebaseDynamicLink/firebase_fynamic_link_service.dart';
 
 class AppRoutes {
   /// The route configuration.
@@ -13,6 +15,8 @@ class AppRoutes {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
+          // Initialize dynamic links service within this route's builder
+          FirebaseDynamicLinkService.initDynamicLinks(context);
           return const Dashboard();
         },
         routes: <RouteBase>[
@@ -32,6 +36,12 @@ class AppRoutes {
             path: 'addSkill',
             builder: (BuildContext context, GoRouterState state) {
               return const AddSkill();
+            },
+          ),
+          GoRoute(
+            path: 'skillValidation',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SkillValidation();
             },
           ),
           GoRoute(

@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:gp/auth/login.dart';
 import 'package:gp/component/app_theme.dart';
 import 'package:gp/dashboard/profile/profile.dart';
+import 'package:gp/dashboard/skill/model/validation_request.dart';
 
+import '../firebaseDynamicLink/firebase_fynamic_link_service.dart';
 import 'home/home_page.dart';
 
 class Dashboard extends StatefulWidget {
