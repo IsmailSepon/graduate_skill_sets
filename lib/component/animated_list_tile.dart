@@ -54,6 +54,7 @@ class AnimatedListTile extends StatelessWidget {
             borderRadius: borderRadiusCache,
             onTap: onTap,
             child: ListTile(
+              tileColor: Colors.white60,
               contentPadding: contentPadding,
               textColor: textColor,
               iconColor: iconColor,

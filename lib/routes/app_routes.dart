@@ -17,7 +17,8 @@ class AppRoutes {
         builder: (BuildContext context, GoRouterState state) {
           // Initialize dynamic links service within this route's builder
           FirebaseDynamicLinkService.initDynamicLinks(context);
-          return const Dashboard();
+          // return const Dashboard();
+          return const SkillValidation(skillID: "sX1I8wa2LxGorg8TRE8S", studentID: "rYgOCh9A3OfKjwAX2qsO6aTu5wG2");
         },
         routes: <RouteBase>[
           GoRoute(
@@ -39,9 +40,14 @@ class AppRoutes {
             },
           ),
           GoRoute(
-            path: 'skillValidation',
+            path: 'skillValidation/:studentId/:skillId',
             builder: (BuildContext context, GoRouterState state) {
-              return const SkillValidation();
+              final studentId = state.pathParameters['studentId']!;
+              final skillId = state.pathParameters['skillId']!;
+              return SkillValidation(
+                skillID: skillId,
+                studentID: studentId,
+              );
             },
           ),
           GoRoute(

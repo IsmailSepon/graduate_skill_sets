@@ -20,9 +20,6 @@ class FirebaseDynamicLinkService {
     );
 
     print('parameters: $parameters');
-    // final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(parameters);
-    //  final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(parameters);
-    //  var url = shortLink.shortUrl;
     var url = await dynamicLinks.buildLink(parameters);
     print('url: $url');
     return url.toString();
@@ -46,7 +43,8 @@ class FirebaseDynamicLinkService {
       print('skillID: $skillId');
 
 
-      context.go('/skillValidation');
+      context.go('/skillValidation/$studentId/$skillId');
+      // context.go('/skillValidation');
       //Navigator.of(context).pushNamed('/skillValidation');
       // context.go('/skillValidation');
 

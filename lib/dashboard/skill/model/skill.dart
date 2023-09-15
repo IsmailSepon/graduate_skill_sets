@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Skill extends Equatable {
@@ -29,6 +30,8 @@ class Skill extends Equatable {
       this.project,
       this.examResult, this.courseLeaderName);
 
+  static Skill get empty => const Skill('', 0, false, '', '', '', '', '', '', '', '', '', '');
+
   static Skill fromJson(Map<String, dynamic> json, String id) {
     Skill skill = Skill(
       json['name'],
@@ -48,6 +51,24 @@ class Skill extends Equatable {
     return skill;
   }
 
+  static Skill fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> snap) {
+    Skill skill = Skill(
+      snap['name'],
+      snap['score'],
+      snap['verifyStatus'],
+      snap['courseName'],
+      snap['courseLeaderMail'],
+      snap['courseLecturerMail'],
+      snap['additionalMessage'],
+      snap['courseID'],
+      snap['courseWork'],
+      snap['resource'],
+      snap['project'],
+      snap['examResult'],
+      snap['courseLeaderName'],
+    );
+    return skill;
+  }
   static Skill fromSnapshot(Map<String, dynamic> snap) {
     Skill skill = Skill(
       snap['name'],

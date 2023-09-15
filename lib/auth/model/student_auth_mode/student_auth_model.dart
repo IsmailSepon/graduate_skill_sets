@@ -20,4 +20,18 @@ class StudentAuthModel extends Equatable{
 
   @override
   List<Object?> get props => [name, email, dateOfBirth, university, department, studentId, courseName, password];
+
+  static fromSnapshot(DocumentSnapshot<Map<String, dynamic>> value) {
+    return StudentAuthModel(
+      value.data()!['email'],
+      value.data()!['name'],
+      value.data()!['dateOfBirth'],
+      // University.fromSnapshot(value.data()!['university']),
+      const University(name: '', id: ''),
+      value.data()!['department'],
+      value.data()!['studentId'],
+      value.data()!['courseName'],
+      value.data()!['password'],
+    );
+  }
 }
