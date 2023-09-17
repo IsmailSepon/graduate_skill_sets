@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 class Skill extends Equatable {
   final String name; //by student
-  final int score; // teacher
+  final double score; // teacher
   final bool verifyStatus; //teacher
   final String courseName; //student
   final String courseLeaderMail; //student

@@ -44,10 +44,37 @@ class AuthRepository {
        var user = result.user;
        // user.displayName = name;
       await user?.updateDisplayName(name);
+      await user?.sendEmailVerification();
 
       saveUser(user!);
       fireStoreService.storeInformation(
           user, uni, department, studentId, dateOfBirth, name);
+      print('registerWithEmailAndPassword $email $password');
+      return true;
+    } catch (e) {
+      print("Error: $e");
+      return false;
+    }
+  }
+
+  // register with email and password
+  Future<bool> teacherRegisterWithEmailAndPassword(
+      String email,
+      String password,
+      University uni,
+      String department,
+      String name) async {
+    try {
+      final result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+       var user = result.user;
+       // user.displayName = name;
+      await user?.updateDisplayName(name);
+      await user?.sendEmailVerification();
+
+      saveUser(user!);
+      fireStoreService.storeTeacherInformation(
+          user, uni, department, name);
       print('registerWithEmailAndPassword $email $password');
       return true;
     } catch (e) {
@@ -72,10 +99,43 @@ class AuthRepository {
 
   void saveUser(User user) {}
 
-  login(String email, String password) async {
-    final result = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    final user = result.user;
-    saveUser(user!);
+  Future<User?> login(String email, String password) async {
+
+    try {
+      final result =  await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // User signed in successfully
+      final user = result.user;
+      return user;
+
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        if (e.code == 'user-not-found') {
+          // Handle "no user found" exception here
+          // For example, show an error message to the user
+          print('No user found with this email.');
+        } else {
+          // Handle other FirebaseAuthException types here
+          print('Error: ${e.message}');
+        }
+      } else {
+        // Handle other exceptions not related to Firebase Authentication
+        print('Error: $e');
+      }
+      return null;
+    }
+
+    // final result = await _auth.signInWithEmailAndPassword(
+    //     email: email, password: password);
+    // print('result: $result');
+    // final user = result.user;
+    // saveUser(user!);
+    // return user;
+
+
+
+
   }
 }

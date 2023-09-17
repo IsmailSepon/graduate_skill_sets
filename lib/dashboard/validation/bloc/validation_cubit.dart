@@ -1,5 +1,9 @@
 
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/validation/bloc/validation_state.dart';
 import '../../../firestore/firestore_services.dart';
 import '../../skill/model/skill.dart';
@@ -34,6 +38,35 @@ class ValidationCubit extends Cubit<ValidationState> {
        print('skill details name: ${skill.name}');
 
   }
+
+  void updateTheRating(BuildContext context) async{
+    emit(state.copySingleProperty('isLoading', true));
+    FireStoreService fireStoreService = FireStoreService();
+    await fireStoreService.updateSkillRating(studentID!, skillID!, double.parse(state.rating));
+
+
+    AwesomeDialog(
+          context: context,
+          animType: AnimType.leftSlide,
+          headerAnimationLoop: false,
+          dialogType: DialogType.success,
+          showCloseIcon: true,
+          title: 'Succes',
+          btnOkOnPress: () {
+            context.go('/login');
+          },
+          btnOkIcon: Icons.check_circle,
+          onDismissCallback: (type) {
+            debugPrint('Dialog Dissmiss from callback $type');
+          },
+        ).show();
+
+    print('Updated score');
+  }
+
+
+
+
 
 }
 

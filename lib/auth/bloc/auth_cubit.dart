@@ -1,7 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../model/university_model.dart';
+import 'package:go_router/go_router.dart';
 import '../repo/auth_repository.dart';
 import 'auth_state.dart';
 
@@ -15,7 +17,7 @@ class GPAuthCubit extends Cubit<AuthState> {
     // emit(state.copyWith(name: value));
   }
 
-  Future<void> register() async {
+  Future<void> register(BuildContext context) async {
     emit(state.copySingleProperty('isLoading', true));
     bool status = await repository.registerWithEmailAndPassword(
         state.email,
@@ -28,18 +30,52 @@ class GPAuthCubit extends Cubit<AuthState> {
 
     if (status) {
       emit(state.copySingleProperty('isLoading', false));
+      context.go('/');
       //go for dashboard
     } else {
       emit(state.copySingleProperty('isLoading', false));
+      showErrorDialog(context, 'Registrtation Error', 'Please try again later');
+    }
+
+
+  }
+   teacherRegister(BuildContext context) async {
+    emit(state.copySingleProperty('isLoading', true));
+    bool status = await repository.registerWithEmailAndPassword(
+        state.email,
+        state.password,
+        state.university,
+        state.department,
+        state.studentId,
+        state.dateOfBirth,
+        state.name);
+
+    if (status) {
+      emit(state.copySingleProperty('isLoading', false));
+      context.go('/');
+      //go for dashboard
+    } else {
+      emit(state.copySingleProperty('isLoading', false));
+      showErrorDialog(context, 'Registrtation Error', 'Please try again later');
     }
 
 
   }
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
 
     emit(state.copySingleProperty('isLoading', true));
-    bool status = await repository.login(state.email, state.password);
+    User? user = await repository.login(state.email, state.password);
+
+    if (user != null && user.email != null && user.emailVerified) {
+      emit(state.copySingleProperty('isLoading', false));
+      //go for dashboard
+      context.go('/');
+    } else {
+      showErrorDialog(context, 'Login Error', 'Please check your mail & password');
+      emit(state.copySingleProperty('isLoading', false));
+    }
+
     //emit(state.copyWith(status: AuthStatus.loading));
     // try {
     //   final user = await AuthRepository.login(email, password);
@@ -57,5 +93,24 @@ class GPAuthCubit extends Cubit<AuthState> {
     // } on Exception catch (e) {
     //   emit(state.copyWith(status: AuthStatus.error, error: e.toString()));
     // }
+  }
+
+
+  showErrorDialog(BuildContext context, String title, String message) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.leftSlide,
+      headerAnimationLoop: false,
+      dialogType: DialogType.error,
+      showCloseIcon: true,
+      title: title,
+      desc: message,
+      btnOkOnPress: () {
+        context.go('/');
+      },
+      btnOkIcon: Icons.check_circle,
+      onDismissCallback: (type) {
+      },
+    ).show();
   }
 }

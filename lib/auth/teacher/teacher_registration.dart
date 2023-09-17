@@ -1,25 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gp/auth/model/university_model.dart';
 import 'package:gp/firestore/firestore_services.dart';
-import 'package:intl/intl.dart';
+import '../../component/long_button.dart';
+import '../bloc/auth_cubit.dart';
+import '../bloc/auth_state.dart';
+import '../model/department_model.dart';
 
-import '../component/long_button.dart';
-import 'bloc/auth_cubit.dart';
-import 'bloc/auth_state.dart';
-import 'model/department_model.dart';
-
-class Registration extends StatefulWidget {
-  const Registration({super.key});
+class TeacherRegistration extends StatefulWidget {
+  const TeacherRegistration({super.key});
 
   @override
-  State<Registration> createState() => _RegistrationState();
+  State<TeacherRegistration> createState() => _TeacherRegistrationState();
 }
 
-class _RegistrationState extends State<Registration> {
+class _TeacherRegistrationState extends State<TeacherRegistration> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _department_controller = TextEditingController();
 
@@ -41,7 +38,7 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Student Registration Page'),
+          title: const Text('Teacher Registration Page'),
         ),
         body: BlocBuilder<GPAuthCubit, AuthState>(builder: (context, state) {
           return SingleChildScrollView(
@@ -67,44 +64,6 @@ class _RegistrationState extends State<Registration> {
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  TextFormField(
-                    readOnly: true,
-                    controller: TextEditingController(
-                        text: state.dateOfBirth == ''
-                            ? ''
-                            : state.dateOfBirth.toString()),
-                    onTap: () async {
-                      showCupertinoModalPopup(
-                        context: context,
-                        builder: (BuildContext modalContext) {
-                          return Container(
-                            height: 200,
-                            color: Colors.white,
-                            child: CupertinoDatePicker(
-                              mode: CupertinoDatePickerMode.date,
-                              // initialDateTime: value,
-                              backgroundColor: CupertinoColors.systemBackground
-                                  .resolveFrom(context),
-                              onDateTimeChanged: (DateTime value) {/**/
-                                context
-                                    .read<GPAuthCubit>()
-                                    .updateSinglePropertyOnState(
-                                        'dateOfBirth', DateFormat("yyyy-MM-dd").format(value));
-                              },
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your date of birth',
-                      labelText: 'Date of Birth',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
                   ),
                   TypeAheadField(
                     textFieldConfiguration: TextFieldConfiguration(
@@ -171,23 +130,6 @@ class _RegistrationState extends State<Registration> {
                     decoration: const InputDecoration(
                       hintText: 'Enter your email',
                       labelText: 'University Email',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  TextFormField(
-                   // validator: (value) => EmailValidator.validate(value!) ? null : "Please enter a valid email",
-                    onChanged: (value) {
-                      context
-                          .read<GPAuthCubit>()
-                          .updateSinglePropertyOnState('studentId', value);
-                    },
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your University ID',
-                      labelText: 'University ID',
                       border: OutlineInputBorder(),
                     ),
                   ),

@@ -37,7 +37,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
 
     final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    if (user != null && user.emailVerified) {
       return Scaffold(
         // appBar: AppBar(
         //   title: Text(DateFormat('dd-MMMM').format(DateTime.now())),

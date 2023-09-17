@@ -53,6 +53,18 @@ class FireStoreService {
     });
   }
 
+  void storeTeacherInformation(User user, University uni, String department, String name) {
+    CollectionReference departmentCollection =
+        FirebaseFirestore.instance.collection('teacher');
+    departmentCollection.doc(user.uid).set({
+      'name': name,
+      'email': user.email,
+      'university': uni.name,
+      'universityID': uni.id,
+      'department': department,
+    });
+  }
+
   bool sendValidation(
       String courseName,
       String courseLeaderMail,
@@ -86,24 +98,6 @@ class FireStoreService {
     // stream: FirebaseFirestore.instance.collection('student').doc(uid).collection('skills').snapshots(),
   }
 
-  // Student getStudentDetails(String studentID) {
-  //   Student student = Student.empty;
-  //   firestore
-  //       .collection('student')
-  //       .doc(studentID)
-  //       .get()
-  //       .then((doc) => {
-  //             if (doc.exists)
-  //               {
-  //                 student = Student.fromSnapshot(doc),
-  //                 // Student.fromSnapshot(doc),
-  //               }
-  //             else
-  //               {print('Student document not found.')}
-  //           });
-  //
-  //   return student;
-  // }
 
   Future<Student> getStudentDetails(String studentID) async {
     Student student = Student.empty;
@@ -141,6 +135,12 @@ class FireStoreService {
     }
 
     return skill;
+  }
+
+  updateSkillRating(String studentID, String skillID, double rating) {
+    CollectionReference departmentCollection = FirebaseFirestore.instance.collection('student');
+    departmentCollection.doc(studentID).collection('skills').doc(skillID).update({'score': rating});
+    departmentCollection.doc(studentID).collection('skills').doc(skillID).update({'verifyStatus': true});
   }
 
 }

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/validation/skill_validation.dart';
 import '../auth/login.dart';
 import '../auth/registration.dart';
+import '../auth/teacher/teacher_registration.dart';
 import '../dashboard/dashboard.dart';
 import '../dashboard/skill/add_skill.dart';
 import '../dashboard/skill/add_skill_details.dart';
@@ -17,8 +18,9 @@ class AppRoutes {
         builder: (BuildContext context, GoRouterState state) {
           // Initialize dynamic links service within this route's builder
           FirebaseDynamicLinkService.initDynamicLinks(context);
-          // return const Dashboard();
-          return const SkillValidation(skillID: "sX1I8wa2LxGorg8TRE8S", studentID: "rYgOCh9A3OfKjwAX2qsO6aTu5wG2");
+           // return const Dashboard();
+          return const LoginPage();
+          //return const SkillValidation(skillID: "sX1I8wa2LxGorg8TRE8S", studentID: "rYgOCh9A3OfKjwAX2qsO6aTu5wG2");
         },
         routes: <RouteBase>[
           GoRoute(
@@ -31,6 +33,12 @@ class AppRoutes {
             path: 'registration',
             builder: (BuildContext context, GoRouterState state) {
               return const Registration();
+            },
+          ),
+          GoRoute(
+            path: 'teacherRegistration',
+            builder: (BuildContext context, GoRouterState state) {
+              return const TeacherRegistration();
             },
           ),
           GoRoute(
