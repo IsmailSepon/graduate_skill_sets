@@ -65,6 +65,18 @@ class FireStoreService {
     });
   }
 
+  String getSkillName(String skillID) {
+    String skillName = '';
+    CollectionReference departmentCollection =
+        FirebaseFirestore.instance.collection('skill');
+    departmentCollection.doc(skillID).get().then((value) {
+      skillName = value.get('name');
+    });
+    print('SkillName: $skillName');
+
+    return skillName;
+  }
+
   bool sendValidation(
       String courseName,
       String courseLeaderMail,
@@ -72,11 +84,11 @@ class FireStoreService {
       String additionalMessage,
       String courseWork,
       String project,
-      String courseLeaderName) {
+      String courseLeaderName, String skillName) {
     final uid = FirebaseAuth.instance.currentUser!.uid;
 
     Skill skill = Skill(
-        courseName,
+        skillName,
         0,
         false,
         courseName,

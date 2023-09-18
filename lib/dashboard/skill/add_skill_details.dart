@@ -50,7 +50,6 @@ class AddSkillDetails extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-
                 TextFormField(
                   onChanged: (value) {
                     context
@@ -85,7 +84,8 @@ class AddSkillDetails extends StatelessWidget {
                   onChanged: (value) {
                     context
                         .read<AddSkillDetailsCubit>()
-                        .updateSinglePropertyOnState('courseLecturerMail', value);
+                        .updateSinglePropertyOnState(
+                            'courseLecturerMail', value);
                   },
                   decoration: const InputDecoration(
                     hintText: 'Enter your Course lecturer mail',
@@ -128,8 +128,10 @@ class AddSkillDetails extends StatelessWidget {
                 ),
                 TextFormField(
                   onChanged: (value) {
-                    context.read<AddSkillDetailsCubit>().updateSinglePropertyOnState(
-                        'additionalMessage', value);
+                    context
+                        .read<AddSkillDetailsCubit>()
+                        .updateSinglePropertyOnState(
+                            'additionalMessage', value);
                   },
                   maxLines: 4,
                   decoration: const InputDecoration(
@@ -146,10 +148,9 @@ class AddSkillDetails extends StatelessWidget {
                   isDisabled: state.courseName.isEmpty ||
                       state.courseLecturerMail.isEmpty,
                   onPressed: () {
-                    print('${state.courseName}- ${state.courseLecturerMail}- ${state.courseLeaderMail} -${state.additionalMessage}- ${state.courseWork} -${state.project}');
                     context
                         .read<AddSkillDetailsCubit>()
-                        .sendValidationRequest(context);
+                        .sendValidationRequest(context, skillID!);
                   },
                   child: const Text('Send Verification request'),
                 ),

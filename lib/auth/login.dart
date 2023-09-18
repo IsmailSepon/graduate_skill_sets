@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Image.asset(
                     'assets/gprofile.png',
-                    height: 300,
+                    height: 200,
                   ),
                   const SizedBox(
                     height: 20.0,

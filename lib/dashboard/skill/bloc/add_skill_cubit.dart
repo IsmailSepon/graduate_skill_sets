@@ -1,4 +1,6 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -16,42 +18,70 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
     emit(state.copySingleProperty(key, value));
   }
 
-  Future<void> sendValidationRequest(BuildContext context) async {
+  Future<void> sendValidationRequest(
+      BuildContext context, String skillID) async {
     // final uid = FirebaseAuth.instance.currentUser!.uid;
     emit(state.copySingleProperty('isLoading', true));
-    FireStoreService().sendValidation(
-        state.courseName,
-        state.courseLeaderMail,
-        state.courseLecturerMail,
-        state.additionalMessage,
-        state.courseWork,
-        state.project,
-        state.courseLeaderName);
 
-    await sendEmailToCourseLeader();
-
-    // var validation = ValidationRequest(
-    //   FirebaseAuth.instance.currentUser!.uid,
-    //   'test12313423',
-    // );
-    // FirebaseDynamicLinkService.generateValidationRequest(validation).then((value) => print('Link: $value'));
-    //
-
-
-    context.go('/');
+    var validation = ValidationRequest(
+      FirebaseAuth.instance.currentUser!.uid,
+      skillID,
+    );
+     await FirebaseDynamicLinkService.generateValidationRequest(validation).then(
+        (validationLink) =>
+            sendEmailToCourseLeader(context, skillID, validationLink));
   }
 
-  sendEmailToCourseLeader() async {
+  sendEmailToCourseLeader(
+      BuildContext context, String skillID, String validationLink) async {
+    if (validationLink.isEmpty || skillID.isEmpty) {
+      showErrorDialog(context, 'Information Missing', 'Please try again later');
+    } else {
+      final Email email = Email(
+        body:
+            'test Email from student ${FirebaseAuth.instance.currentUser?.displayName}  \n Please Click this and Validate you student: \n$validationLink',
+        subject:
+            'Request for Skill validation from ${FirebaseAuth.instance.currentUser?.displayName}',
+        recipients: [(state.courseLeaderMail)],
+        cc: [(state.courseLecturerMail)],
+        isHTML: false,
+      );
 
-    final Email email = Email(
-      body: 'test Email from student ${FirebaseAuth.instance.currentUser?.displayName}',
-      subject: 'Request for Skill validation from ${FirebaseAuth.instance.currentUser?.displayName}',
-      recipients: [(state.courseLeaderMail)],
-      cc: [(state.courseLecturerMail)],
-      isHTML: false,
-    );
+      await FlutterEmailSender.send(email);
 
-    await FlutterEmailSender.send(email);
+      String skillName = FireStoreService().getSkillName(skillID);
 
+      bool status = FireStoreService().sendValidation(
+          state.courseName,
+          state.courseLeaderMail,
+          state.courseLecturerMail,
+          state.additionalMessage,
+          state.courseWork,
+          state.project,
+          state.courseLeaderName, skillName);
+
+      if (status) {
+        context.go('/');
+      }else{
+        showErrorDialog(context, 'Problem', 'there was a problem sending the request, please try again later');
+      }
+    }
+  }
+
+  showErrorDialog(BuildContext context, String title, String message) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.leftSlide,
+      headerAnimationLoop: false,
+      dialogType: DialogType.error,
+      showCloseIcon: true,
+      title: title,
+      desc: message,
+      btnOkOnPress: () {
+        context.go('/');
+      },
+      btnOkIcon: Icons.check_circle,
+      onDismissCallback: (type) {},
+    ).show();
   }
 }
