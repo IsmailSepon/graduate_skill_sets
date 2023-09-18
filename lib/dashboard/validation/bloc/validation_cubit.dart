@@ -60,8 +60,6 @@ class ValidationCubit extends Cubit<ValidationState> {
             debugPrint('Dialog Dissmiss from callback $type');
           },
         ).show();
-
-    print('Updated score');
   }
 
 

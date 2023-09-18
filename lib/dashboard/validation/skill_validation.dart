@@ -1,9 +1,12 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/validation/bloc/validation_state.dart';
+import 'package:gp/firestore/firestore_services.dart';
 
 import '../../auth/login.dart';
 import '../../component/animated_list_tile.dart';
@@ -45,9 +48,10 @@ class _SkillValidationState extends State<SkillValidation> {
   @override
   Widget build(BuildContext context) {
 
-
     final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null && user.emailVerified) {
+    String teacherName = FireStoreService.getTeacher(user?.uid ?? '');
+    print('teacherName Build $teacherName'  );
+    if (user != null && teacherName.isNotEmpty && user.emailVerified) {
       return BlocProvider(
         create: (context) =>
             ValidationCubit(skillID: widget.skillID, studentID: widget.studentID),
@@ -178,7 +182,17 @@ class _SkillValidationState extends State<SkillValidation> {
             }),
       );
     } else {
-      // User is not logged in, navigate to login screen
+      Fluttertoast.showToast(
+        msg: "Please Login as a Teacher!",
+        toastLength: Toast.LENGTH_SHORT, // Duration for how long the toast should be displayed
+        gravity: ToastGravity.BOTTOM,    // Toast gravity (TOP, CENTER, BOTTOM)
+        backgroundColor: Colors.black.withOpacity(0.7), // Background color of the toast
+        textColor: Colors.white,         // Text color of the toast message
+        fontSize: 16.0,                 // Font size of the toast message
+      );
+      if(user != null && teacherName.isNotEmpty){
+        FirebaseAuth.instance.signOut();
+      }
       return const LoginPage();
     }
 

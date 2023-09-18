@@ -155,4 +155,19 @@ class FireStoreService {
     departmentCollection.doc(studentID).collection('skills').doc(skillID).update({'verifyStatus': true});
   }
 
+  static String getTeacher(String uid) {
+    String teacherName = '';
+    if (uid.isEmpty) {
+      return teacherName;
+    }
+    CollectionReference departmentCollection =
+        FirebaseFirestore.instance.collection('teacher');
+    departmentCollection.doc(uid).get().then((value) {
+      teacherName = value.get('name');
+      print('Teacher Name: ${value.get('name')}');
+    });
+
+    return teacherName;
+  }
+
 }

@@ -60,6 +60,7 @@ dependencies:
   flutter_email_sender: ^6.0.1
   dcdg: ^4.1.0
   awesome_dialog: ^3.1.0
+  fluttertoast: ^8.2.2
 
 
 
