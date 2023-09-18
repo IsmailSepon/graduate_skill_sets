@@ -39,16 +39,14 @@ class GPAuthCubit extends Cubit<AuthState> {
 
 
   }
+
    teacherRegister(BuildContext context) async {
     emit(state.copySingleProperty('isLoading', true));
-    bool status = await repository.registerWithEmailAndPassword(
+    bool status = await repository.teacherRegisterWithEmailAndPassword(
         state.email,
         state.password,
         state.university,
-        state.department,
-        state.studentId,
-        state.dateOfBirth,
-        state.name);
+        state.department, state.name);
 
     if (status) {
       emit(state.copySingleProperty('isLoading', false));
@@ -62,15 +60,19 @@ class GPAuthCubit extends Cubit<AuthState> {
 
   }
 
-  Future<void> login(BuildContext context) async {
+  Future<void> login(BuildContext context, int role) async {
 
     emit(state.copySingleProperty('isLoading', true));
     User? user = await repository.login(state.email, state.password);
 
-    if (user != null && user.email != null && user.emailVerified) {
+    if (user != null && user.email != null) {
       emit(state.copySingleProperty('isLoading', false));
       //go for dashboard
-      context.go('/');
+      if(role ==0){
+        context.go('/');
+      }else{
+        context.go('/teacherDashboard');
+      }
     } else {
       showErrorDialog(context, 'Login Error', 'Please check your mail & password');
       emit(state.copySingleProperty('isLoading', false));

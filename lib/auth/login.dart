@@ -175,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                     isLoading: state.isLoading,
                     isDisabled: state.email.isEmpty || state.password.isEmpty,
                     onPressed: () {
-                      context.read<GPAuthCubit>().login(context);
+                      context.read<GPAuthCubit>().login(context, role);
                     },
                     child: Text(role == 0 ? 'Login as Student' : 'Login as Teacher'),
                   ),

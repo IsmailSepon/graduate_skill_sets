@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/validation/skill_validation.dart';
+import 'package:gp/teacher_dashboard/teacher_dashboard.dart';
 import '../auth/login.dart';
 import '../auth/registration.dart';
 import '../auth/teacher/teacher_registration.dart';
@@ -23,6 +24,12 @@ class AppRoutes {
           //return const SkillValidation(skillID: "sX1I8wa2LxGorg8TRE8S", studentID: "rYgOCh9A3OfKjwAX2qsO6aTu5wG2");
         },
         routes: <RouteBase>[
+          GoRoute(
+            path: 'teacherDashboard',
+            builder: (BuildContext context, GoRouterState state) {
+              return const TeacherDashBoard();
+            },
+          ),
           GoRoute(
             path: 'login',
             builder: (BuildContext context, GoRouterState state) {

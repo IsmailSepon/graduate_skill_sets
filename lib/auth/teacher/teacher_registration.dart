@@ -158,13 +158,11 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
                         state.email.isEmpty ||
                         state.password.isEmpty ||
                         state.university.name.isEmpty ||
-                        state.department.isEmpty ||
-                        // state.dateOfBirth.isEmpty ||
-                        state.studentId.isEmpty,
+                        state.department.isEmpty,
                     onPressed: () {
                       context
                           .read<GPAuthCubit>()
-                          .register(context);
+                          .teacherRegister(context);
                     },
                     child: const Text('Register'),
                   ),
