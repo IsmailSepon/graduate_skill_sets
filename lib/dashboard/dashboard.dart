@@ -4,9 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:gp/auth/login.dart';
 import 'package:gp/component/app_theme.dart';
 import 'package:gp/dashboard/profile/profile.dart';
-import 'package:gp/dashboard/skill/model/validation_request.dart';
-
-import '../firebaseDynamicLink/firebase_fynamic_link_service.dart';
 import 'home/home_page.dart';
 
 class Dashboard extends StatefulWidget {
@@ -27,8 +24,6 @@ class _DashboardState extends State<Dashboard> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Profile(),
-    const Profile(),
     const Profile(),
   ];
 
@@ -59,39 +54,52 @@ class _DashboardState extends State<Dashboard> {
           child: SizedBox(
             height: 60,
             child: Row( // This is main Axis
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Row( // This is children of main Axis
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed:(){_onItemTapped(0);} ,
-                      child:  Icon(Icons.home, color: _selectedIndex ==0 ? Colors.blue : Colors.grey,),
-                    ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed:(){_onItemTapped(1);} ,
-                      child:  Icon(Icons.person, color: _selectedIndex ==1 ? Colors.blue : Colors.grey,),
-                    )
-                  ],
+
+                MaterialButton(
+                  minWidth: 40,
+                  onPressed:(){_onItemTapped(0);} ,
+                  child:  Icon(Icons.home, color: _selectedIndex ==0 ? Colors.blue : Colors.grey,),
                 ),
-                Row( // This is children of main Axis
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed:(){_onItemTapped(2);} ,
-                      child: Icon(Icons.notifications, color: _selectedIndex ==2 ? Colors.blue : Colors.grey,),
-                    ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed:(){_onItemTapped(3);} ,
-                      child: Icon(Icons.settings, color: _selectedIndex == 3 ? Colors.blue : Colors.grey,),
-                    )
-                  ],
+                const SizedBox(width: 40,),
+                MaterialButton(
+                  minWidth: 40,
+                  onPressed:(){_onItemTapped(1);} ,
+                  child:  Icon(Icons.person, color: _selectedIndex ==1 ? Colors.blue : Colors.grey,),
                 )
+                // Row( // This is children of main Axis
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: <Widget>[
+                //     MaterialButton(
+                //       minWidth: 40,
+                //       onPressed:(){_onItemTapped(0);} ,
+                //       child:  Icon(Icons.home, color: _selectedIndex ==0 ? Colors.blue : Colors.grey,),
+                //     ),
+                //     MaterialButton(
+                //       minWidth: 40,
+                //       onPressed:(){_onItemTapped(1);} ,
+                //       child:  Icon(Icons.person, color: _selectedIndex ==1 ? Colors.blue : Colors.grey,),
+                //     )
+                //   ],
+                // ),
+                // Row( // This is children of main Axis
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: <Widget>[
+                //     MaterialButton(
+                //       minWidth: 40,
+                //       onPressed:(){_onItemTapped(2);} ,
+                //       child: Icon(Icons.notifications, color: _selectedIndex ==2 ? Colors.blue : Colors.grey,),
+                //     ),
+                //     // MaterialButton(
+                //     //   minWidth: 40,
+                //     //   onPressed:(){_onItemTapped(3);} ,
+                //     //   child: Icon(Icons.settings, color: _selectedIndex == 3 ? Colors.blue : Colors.grey,),
+                //     // )
+                //   ],
+                // )
               ],
 
             ),

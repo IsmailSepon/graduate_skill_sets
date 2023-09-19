@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gp/dashboard/dashboard.dart';
 import '../repo/auth_repository.dart';
 import 'auth_state.dart';
 
@@ -31,6 +33,7 @@ class GPAuthCubit extends Cubit<AuthState> {
     if (status) {
       emit(state.copySingleProperty('isLoading', false));
       context.go('/');
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Dashboard()));
       //go for dashboard
     } else {
       emit(state.copySingleProperty('isLoading', false));
@@ -61,7 +64,6 @@ class GPAuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> login(BuildContext context, int role) async {
-
     emit(state.copySingleProperty('isLoading', true));
     User? user = await repository.login(state.email, state.password);
 
@@ -77,14 +79,6 @@ class GPAuthCubit extends Cubit<AuthState> {
       showErrorDialog(context, 'Login Error', 'Please check your mail & password');
       emit(state.copySingleProperty('isLoading', false));
     }
-
-    //emit(state.copyWith(status: AuthStatus.loading));
-    // try {
-    //   final user = await AuthRepository.login(email, password);
-    //   emit(state.copyWith(user: user, status: AuthStatus.authenticated));
-    // } on Exception catch (e) {
-    //   emit(state.copyWith(status: AuthStatus.error, error: e.toString()));
-    // }
   }
 
   Future<void> logout() async {

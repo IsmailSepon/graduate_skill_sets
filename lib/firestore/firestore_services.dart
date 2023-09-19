@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:gp/auth/model/department_model.dart';
 import 'package:gp/auth/model/student_auth_mode/student_auth_model.dart';
 import '../auth/model/university_model.dart';
 import '../dashboard/skill/model/skill.dart';
-import '../dashboard/validation/model/student.dart';
 
 class FireStoreService {
   final FirebaseDatabase database = FirebaseDatabase.instance;
@@ -51,6 +49,22 @@ class FireStoreService {
       'studentId': studentId,
       'dateOfBirth': dateOfBirth,
     });
+  }
+
+  getStudentDetailsFromFirebase(String uid) async {
+    StudentAuthModel student = StudentAuthModel.empty;
+    final doc = await firestore
+        .collection('student')
+        .doc(uid)
+        .get();
+
+    if (doc.exists) {
+      student = student.fromSnapshot(doc);
+    } else {
+      print('Student document not found.');
+    }
+
+    return student;
   }
 
   void storeTeacherInformation(User user, University uni, String department, String name) {
@@ -111,20 +125,20 @@ class FireStoreService {
   }
 
 
-  Future<Student> getStudentDetails(String studentID) async {
-    Student student = Student.empty;
-
-    final doc = await firestore
+  getStudentDetails(String studentID) async {
+    StudentAuthModel student = StudentAuthModel.empty;
+    final doc =  await firestore
         .collection('student')
         .doc(studentID)
-        .get();
+        .get();//.then((value) => StudentAuthModel.fromSnapshot(value));
+
 
     if (doc.exists) {
-      student = Student.fromSnapshot(doc);
+      student = student.fromSnapshot(doc);
     } else {
       print('Student document not found.');
+      return student;
     }
-
     return student;
   }
 
