@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:gp/auth/model/department_model.dart';
+import 'package:gp/auth/model/skill_model.dart';
 import 'package:gp/auth/model/student_auth_mode/student_auth_model.dart';
 import '../auth/model/university_model.dart';
 import '../dashboard/skill/model/skill.dart';
@@ -11,6 +12,18 @@ class FireStoreService {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   addUniversity() {}
+
+  getSkillNameList() async {
+    CollectionReference universityCollection =
+        FirebaseFirestore.instance.collection('skill_set');
+
+    List<SkillModel> skillList = [];
+    QuerySnapshot querySnapshot = await universityCollection.get();
+    for (var snapshot in querySnapshot.docs) {
+      skillList.add(SkillModel.fromSnapshot(snapshot, snapshot.id));
+    }
+    return skillList;
+  }
 
   getUniversityList() async {
     CollectionReference universityCollection =
@@ -182,6 +195,13 @@ class FireStoreService {
     });
 
     return teacherName;
+  }
+
+  void storeDreamJob(String text) {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference departmentCollection =
+        FirebaseFirestore.instance.collection('student');
+    departmentCollection.doc(uid).update({'dreamJob': text});
   }
 
 }

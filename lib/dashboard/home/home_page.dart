@@ -55,34 +55,7 @@ class SkillsListView extends StatelessWidget {
             var doc = snapshot.data?.docs[index];
             var data = doc?.data() as Map<String, dynamic>;
             Skill skill = Skill.fromSnapshot(data);
-            print('skill: $skill');
-
             return SkillListTile(skill: skill);
-            // return Padding(
-            //   padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-            //   child: AnimatedListTile(
-            //     leading: Image.asset('assets/skill_icon.jpg', height: 300,),//CircleAvatar(child: Image.asset('assets/skill_icon.jpg', height: 300,)),
-            //
-            //     title: Text(skill.name),//Text(data['name']),
-            //     borderRadius: const BorderRadius.all(Radius.circular(0)),
-            //     trailing: const Icon(Icons.blur_on_rounded),
-            //     // IconButton(
-            //     //   icon: const Icon(Icons.arrow_forward_ios_sharp),
-            //     // ),
-            //     subtitle: const Text('IF this has any additional information'),
-            //     onTap: () {
-            //       // print('ID: ${doc?.id}');
-            //       // // context.goNamed("/addSkillDetails", pathParameters: {'id':'${doc?.id}', 'name':'${data['name']}'});
-            //       // context.go('/details/${data['name']}/${doc?.id}');
-            //     },
-            //
-            //   ),
-            // );
-
-            // return ListTile(
-            //   contentPadding: const EdgeInsets.all(10.0),
-            //   title: Text(data['name']),
-            // );
           },
         );
       },
