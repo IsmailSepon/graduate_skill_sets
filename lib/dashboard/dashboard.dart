@@ -41,12 +41,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null && user.emailVerified) {
-      // if (isResumeLoading) {
-      //   return const Center(
-      //     child: CircularProgressIndicator(),
-      //   );
-      // }
+    if (user != null) {
+
       return Scaffold(
           // appBar: AppBar(
           //   title: Text(DateFormat('dd-MMMM').format(DateTime.now())),
@@ -390,7 +386,9 @@ class _DashboardState extends State<Dashboard> {
       title: 'Resume Error',
       desc: 'Please add at least 3 skills to your profile to generate your resume',
       btnOkOnPress: () {
-        context.go('/');
+        setState(() {
+          isResumeLoading = false;
+        });
       },
       btnOkIcon: Icons.check_circle,
       onDismissCallback: (type) {},
