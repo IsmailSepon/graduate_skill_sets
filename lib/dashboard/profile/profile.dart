@@ -21,7 +21,7 @@ class Profile extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Home Page'),
+              title: const Text('Profile'),
             ),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -120,9 +120,9 @@ class Profile extends StatelessWidget {
                       child: LongButton(
                         color: Colors.red,
                         onPressed: () {
-                          context
-                              .read<ProfileCubit>()
-                              .updateSinglePropertyOnState('isLoading', true);
+                          // context
+                          //     .read<ProfileCubit>()
+                          //     .updateSinglePropertyOnState('isLoading', true);
                           FirebaseAuth.instance.signOut();
                           context.go('/');
                         },

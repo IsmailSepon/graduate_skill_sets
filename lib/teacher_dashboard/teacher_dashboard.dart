@@ -1,34 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../component/animated_list_tile.dart';
 
 class TeacherDashBoard  extends StatelessWidget{
   const TeacherDashBoard({super.key});
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   // TODO: implement build
-  //   return Scaffold(
-  //     appBar: AppBar(title: const Text('Dashboard'),),
-  //     body: Container(),
-  //   );
-  // }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Skill'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        title: const Text('Your Students List'),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -72,7 +55,7 @@ class TeacherDashBoard  extends StatelessWidget{
                   onTap: () {
                     print('ID: ${doc?.id}');
                     // context.goNamed("/addSkillDetails", pathParameters: {'id':'${doc?.id}', 'name':'${data['name']}'});
-                    context.go('/details/${data['name']}/${doc?.id}');
+                    // context.go('/details/${data['name']}/${doc?.id}');
                   },
 
                 ),

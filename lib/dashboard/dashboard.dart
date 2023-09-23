@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,6 @@ import 'package:gp/component/app_theme.dart';
 import 'package:gp/dashboard/profile/profile.dart';
 import 'package:gp/dashboard/skill/model/skill.dart';
 import 'package:gp/firestore/firestore_services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'home/home_page.dart';
 import 'package:pdf/widgets.dart' as pdfLib;
 import 'package:document_file_save_plus/document_file_save_plus.dart';
@@ -204,34 +203,7 @@ class _DashboardState extends State<Dashboard> {
       'address': '123 Main St, New York, NY 10001',
       'divider': '\n\n\n\n',
 
-      'careerObjective':
-          'Recent graduate with a [Your Degree] in [Your Major] seeking an entry-level position in [Target Industry or Job Role] to apply my [Key Skill or Strength] and [Another Relevant Skill] to contribute to a dynamic team and gain valuable professional experience.'
-              ' Eager to learn, adaptable, and committed to achieving [Company or Industry] goals.',
-      'education': [
-        {
-          'institution': 'University 1',
-          'area': 'Computer Science',
-          'studyType': 'Bachelor',
-          'startDate': '2013-01-01',
-          'endDate': '2017-01-01',
-          'gpa': '4.0',
-          'courses': ['DB1101 - Basic SQL']
-        },
-        {
-          'institution': 'University 2',
-          'area': 'Computer Science',
-          'studyType': 'Master',
-          'startDate': '2017-01-01',
-          'endDate': '2018-01-01',
-          'gpa': '4.0',
-          'courses': ['DB1101 - Advanced SQL']
-        }
-      ],
-      'skills': [
-        {'name': 'Skill 1', 'level': 'Expert'},
-        {'name': 'Skill 2', 'level': 'Beginner'},
-        {'name': 'Skill 3', 'level': 'Intermediate'},
-      ],
+
       'references': [
         {
           'name': 'Jane Doe',
@@ -288,6 +260,10 @@ class _DashboardState extends State<Dashboard> {
   Future<void> generatePDFResume(Map<String, dynamic> resumeData) async {
     final pdf = pdfLib.Document();
     List<Skill> skillList = await fetchSkillListData();
+    if(skillList.length < 3){
+     showErrorDialog(context);
+      return;
+    }
     final StudentAuthModel student = await FireStoreService()
         .getStudentDetails(FirebaseAuth.instance.currentUser!.uid);
 
@@ -402,5 +378,23 @@ class _DashboardState extends State<Dashboard> {
     // context.go('/skillValidation/$studentId/$skillId');
 
     //context.go('/resume/${url}');
+  }
+
+  void showErrorDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.leftSlide,
+      headerAnimationLoop: false,
+      dialogType: DialogType.error,
+      showCloseIcon: true,
+      title: 'Resume Error',
+      desc: 'Please add at least 3 skills to your profile to generate your resume',
+      btnOkOnPress: () {
+        context.go('/');
+      },
+      btnOkIcon: Icons.check_circle,
+      onDismissCallback: (type) {},
+    ).show();
+
   }
 }
