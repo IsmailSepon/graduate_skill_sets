@@ -27,7 +27,6 @@ class SkillsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uid = FirebaseAuth.instance.currentUser!.uid;
-    print('uid: $uid');
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('student').doc(uid).collection('skills').snapshots(),
       builder: (context, snapshot) {

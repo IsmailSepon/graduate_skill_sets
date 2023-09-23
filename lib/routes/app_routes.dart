@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gp/dashboard/resume/pdf_viewer_page.dart';
 import 'package:gp/dashboard/validation/skill_validation.dart';
 import 'package:gp/teacher_dashboard/teacher_dashboard.dart';
 import '../auth/login.dart';
@@ -73,6 +74,14 @@ class AppRoutes {
               return AddSkillDetails(
                 skillID: id,
                 skillName: name,
+              );
+            },
+          ),
+          GoRoute(
+            path: 'resume/:path',
+            builder: (BuildContext context, GoRouterState state) {
+              return PDFViewerPage(
+                pdfPath: state.pathParameters['path']!,
               );
             },
           ),
