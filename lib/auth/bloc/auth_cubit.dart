@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/dashboard.dart';
+import 'package:gp/teacher_dashboard/teacher_dashboard.dart';
 import '../repo/auth_repository.dart';
 import 'auth_state.dart';
 
@@ -63,6 +64,7 @@ class GPAuthCubit extends Cubit<AuthState> {
 
   }
 
+
   Future<void> login(BuildContext context, int role) async {
     emit(state.copySingleProperty('isLoading', true));
     User? user = await repository.login(state.email, state.password);
@@ -71,9 +73,12 @@ class GPAuthCubit extends Cubit<AuthState> {
       emit(state.copySingleProperty('isLoading', false));
       //go for dashboard
       if(role ==0){
-        context.go('/');
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Dashboard()));
+        // context.go('/');
       }else{
-        context.go('/teacherDashboard');
+        // context.go('/teacherDashboard');
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TeacherDashBoard()));
       }
     } else {
       showErrorDialog(context, 'Login Error', 'Please check your mail & password');

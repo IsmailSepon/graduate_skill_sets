@@ -21,8 +21,6 @@ class AppRoutes {
           // Initialize dynamic links service within this route's builder
           FirebaseDynamicLinkService.initDynamicLinks(context);
             return const Dashboard();
-          //return const LoginPage();
-          //return const SkillValidation(skillID: "sX1I8wa2LxGorg8TRE8S", studentID: "rYgOCh9A3OfKjwAX2qsO6aTu5wG2");
         },
         routes: <RouteBase>[
           GoRoute(

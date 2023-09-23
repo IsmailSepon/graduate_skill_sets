@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -175,6 +176,9 @@ class _LoginPageState extends State<LoginPage> {
                     isLoading: state.isLoading,
                     isDisabled: state.email.isEmpty || state.password.isEmpty,
                     onPressed: () {
+                      if(FirebaseAuth.instance.currentUser != null){
+                        FirebaseAuth.instance.signOut();
+                      }
                       context.read<GPAuthCubit>().login(context, role);
                     },
                     child: Text(role == 0 ? 'Login as Student' : 'Login as Teacher'),
