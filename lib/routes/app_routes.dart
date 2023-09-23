@@ -20,6 +20,7 @@ class AppRoutes {
         builder: (BuildContext context, GoRouterState state) {
           // Initialize dynamic links service within this route's builder
           FirebaseDynamicLinkService.initDynamicLinks(context);
+          print('FirebaseDynamicLinkService.initDynamicLinks(context)');
             return const Dashboard();
         },
         routes: <RouteBase>[

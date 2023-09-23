@@ -187,8 +187,10 @@ class FireStoreService {
     if (uid.isEmpty) {
       return teacherName;
     }
+
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference departmentCollection =
-        FirebaseFirestore.instance.collection('teacher');
+    firestore.collection('teacher');
     departmentCollection.doc(uid).get().then((value) {
       teacherName = value.get('name');
       print('Teacher Name: ${value.get('name')}');

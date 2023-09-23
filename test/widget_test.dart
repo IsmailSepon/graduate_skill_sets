@@ -18,36 +18,38 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
 
-
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
 
   test('Student Registration', () async {
+    // Initialize Firebase
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-    University university = const University(name: 'Test University', id: '1234567890');
-    AuthRepository repository = AuthRepository();
-    bool test = await  repository.registerWithEmailAndPassword('test@gmail.com', '123456789', university, 'Computer Science', '1234567890', '${DateTime.now()}', 'Test User');
+    // Create a mock University object
+    University university = University(name: 'Test University', id: '1234567890');
+
+    // Create an instance of your AuthRepository
+    AuthRepository repository = AuthRepository(); // Replace with your actual repository
+
+    // Perform the registration test
+    bool test = await repository.registerWithEmailAndPassword(
+      'test@gmail.com',
+      '123456789',
+      university,
+      'Computer Science',
+      '1234567890',
+      '${DateTime.now()}',
+      'Test User',
+    );
+
+    // Assert the test result
     expect(test, true);
 
+    // Print the test result
     print('Student Registration Test $test');
   });
-
-
-
 }
 
