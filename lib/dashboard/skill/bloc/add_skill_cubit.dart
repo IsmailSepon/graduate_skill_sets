@@ -9,6 +9,7 @@ import 'package:gp/dashboard/skill/bloc/add_skill_details_state.dart';
 import 'package:gp/firebaseDynamicLink/firebase_fynamic_link_service.dart';
 import 'package:gp/firestore/firestore_services.dart';
 
+import '../../dashboard.dart';
 import '../model/validation_request.dart';
 
 class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
@@ -61,7 +62,8 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
           state.courseLeaderName, skillName);
 
       if (status) {
-        context.go('/');
+        // context.go('/');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
       }else{
         showErrorDialog(context, 'Problem', 'there was a problem sending the request, please try again later');
       }
@@ -78,7 +80,10 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
       title: title,
       desc: message,
       btnOkOnPress: () {
-        context.go('/');
+        // context.go('/');
+
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
+
       },
       btnOkIcon: Icons.check_circle,
       onDismissCallback: (type) {},

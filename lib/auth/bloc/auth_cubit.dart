@@ -1,9 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/dashboard.dart';
 import 'package:gp/teacher_dashboard/teacher_dashboard.dart';
@@ -33,8 +31,8 @@ class GPAuthCubit extends Cubit<AuthState> {
 
     if (status) {
       emit(state.copySingleProperty('isLoading', false));
-      context.go('/');
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Dashboard()));
+      //context.go('/');
+       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Dashboard()));
       //go for dashboard
     } else {
       emit(state.copySingleProperty('isLoading', false));
@@ -54,7 +52,9 @@ class GPAuthCubit extends Cubit<AuthState> {
 
     if (status) {
       emit(state.copySingleProperty('isLoading', false));
-      context.go('/');
+      //context.go('/');
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Dashboard()));
       //go for dashboard
     } else {
       emit(state.copySingleProperty('isLoading', false));
@@ -73,9 +73,11 @@ class GPAuthCubit extends Cubit<AuthState> {
       emit(state.copySingleProperty('isLoading', false));
       //go for dashboard
       if(role ==0){
-
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Dashboard()));
-        // context.go('/');
+       // Navigator.pushReplacementNamed(context, '/');
+         //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Dashboard()));
+        // Navigator.pushReplacement(
+        //   context,MaterialPageRoute(builder: (context) => const Dashboard()),);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
       }else{
         // context.go('/teacherDashboard');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TeacherDashBoard()));
@@ -86,15 +88,6 @@ class GPAuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> logout() async {
-    // emit(state.copyWith(status: AuthStatus.loading));
-    // try {
-    //   await AuthRepository.logout();
-    //   emit(state.copyWith(user: null, status: AuthStatus.unauthenticated));
-    // } on Exception catch (e) {
-    //   emit(state.copyWith(status: AuthStatus.error, error: e.toString()));
-    // }
-  }
 
 
   showErrorDialog(BuildContext context, String title, String message) {
@@ -107,7 +100,7 @@ class GPAuthCubit extends Cubit<AuthState> {
       title: title,
       desc: message,
       btnOkOnPress: () {
-        context.go('/');
+
       },
       btnOkIcon: Icons.check_circle,
       onDismissCallback: (type) {

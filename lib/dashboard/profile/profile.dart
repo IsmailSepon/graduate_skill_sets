@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gp/auth/login.dart';
 import 'package:gp/component/long_button.dart';
 import 'package:gp/dashboard/profile/bloc/profile_cubit.dart';
@@ -126,7 +124,7 @@ class Profile extends StatelessWidget {
                           //     .read<ProfileCubit>()
                           //     .updateSinglePropertyOnState('isLoading', true);
                           FirebaseAuth.instance.signOut();
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage()));
+                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage()));
 
                           // context.go('/login');
                         },
