@@ -77,7 +77,8 @@ class GPAuthCubit extends Cubit<AuthState> {
          //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Dashboard()));
         // Navigator.pushReplacement(
         //   context,MaterialPageRoute(builder: (context) => const Dashboard()),);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
+         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
+        //context.go('/');
       }else{
         // context.go('/teacherDashboard');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TeacherDashBoard()));

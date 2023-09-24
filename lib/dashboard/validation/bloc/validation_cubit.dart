@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/validation/bloc/validation_state.dart';
+import '../../../auth/model/student_auth_mode/student_auth_model.dart';
 import '../../../firestore/firestore_services.dart';
 import '../../skill/model/skill.dart';
 import '../model/student.dart';
@@ -29,8 +30,8 @@ class ValidationCubit extends Cubit<ValidationState> {
     FireStoreService fireStoreService = FireStoreService();
     fireStoreService.getStudentDetails(studentID);
 
-    Student student = await fireStoreService.getStudentDetails(studentID);
-    emit(state.copySingleProperty('student', student));
+    StudentAuthModel student = await fireStoreService.getStudentDetails(studentID);
+    emit(state.copySingleProperty('student', Student(email: student.email, name: student.name, department: student.department, studentId: student.studentId)));
        print('student name: ${student.name}');
 
     Skill skill = await  fireStoreService.getSkillDetails(studentID, skillID);

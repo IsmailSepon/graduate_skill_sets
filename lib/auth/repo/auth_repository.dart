@@ -40,6 +40,36 @@ class AuthRepository {
     }
   }
 
+
+  Future<User?> login(String email, String password) async {
+
+    try {
+      final result =  await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // User signed in successfully
+      final user = result.user;
+      return user;
+
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        if (e.code == 'user-not-found') {
+          // Handle "no user found" exception here
+          // For example, show an error message to the user
+          print('No user found with this email.');
+        } else {
+          // Handle other FirebaseAuthException types here
+          print('Error: ${e.message}');
+        }
+      } else {
+        // Handle other exceptions not related to Firebase Authentication
+        print('Error: $e');
+      }
+      return null;
+    }
+  }
+
   // register with email and password
   Future<bool> teacherRegisterWithEmailAndPassword(
       String email,
@@ -82,32 +112,4 @@ class AuthRepository {
 
   void saveUser(User user) {}
 
-  Future<User?> login(String email, String password) async {
-
-    try {
-      final result =  await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      // User signed in successfully
-      final user = result.user;
-      return user;
-
-    } catch (e) {
-      if (e is FirebaseAuthException) {
-        if (e.code == 'user-not-found') {
-          // Handle "no user found" exception here
-          // For example, show an error message to the user
-          print('No user found with this email.');
-        } else {
-          // Handle other FirebaseAuthException types here
-          print('Error: ${e.message}');
-        }
-      } else {
-        // Handle other exceptions not related to Firebase Authentication
-        print('Error: $e');
-      }
-      return null;
-    }
-  }
 }

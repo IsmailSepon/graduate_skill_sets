@@ -24,6 +24,8 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
     // final uid = FirebaseAuth.instance.currentUser!.uid;
     emit(state.copySingleProperty('isLoading', true));
 
+
+
     var validation = ValidationRequest(
       FirebaseAuth.instance.currentUser!.uid,
       skillID,
@@ -48,7 +50,6 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
         isHTML: false,
       );
 
-      await FlutterEmailSender.send(email);
 
       String skillName = FireStoreService().getSkillName(skillID);
 
@@ -61,7 +62,10 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
           state.project,
           state.courseLeaderName, skillName);
 
+
       if (status) {
+
+        await FlutterEmailSender.send(email);
         // context.go('/');
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
       }else{

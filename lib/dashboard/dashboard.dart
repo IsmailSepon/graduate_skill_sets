@@ -93,38 +93,6 @@ class _DashboardState extends State<Dashboard> {
                       color: _selectedIndex == 1 ? Colors.blue : Colors.grey,
                     ),
                   )
-                  // Row( // This is children of main Axis
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: <Widget>[
-                  //     MaterialButton(
-                  //       minWidth: 40,
-                  //       onPressed:(){_onItemTapped(0);} ,
-                  //       child:  Icon(Icons.home, color: _selectedIndex ==0 ? Colors.blue : Colors.grey,),
-                  //     ),
-                  //     MaterialButton(
-                  //       minWidth: 40,
-                  //       onPressed:(){_onItemTapped(1);} ,
-                  //       child:  Icon(Icons.person, color: _selectedIndex ==1 ? Colors.blue : Colors.grey,),
-                  //     )
-                  //   ],
-                  // ),
-                  // Row( // This is children of main Axis
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: <Widget>[
-                  //     MaterialButton(
-                  //       minWidth: 40,
-                  //       onPressed:(){_onItemTapped(2);} ,
-                  //       child: Icon(Icons.notifications, color: _selectedIndex ==2 ? Colors.blue : Colors.grey,),
-                  //     ),
-                  //     // MaterialButton(
-                  //     //   minWidth: 40,
-                  //     //   onPressed:(){_onItemTapped(3);} ,
-                  //     //   child: Icon(Icons.settings, color: _selectedIndex == 3 ? Colors.blue : Colors.grey,),
-                  //     // )
-                  //   ],
-                  // )
                 ],
               ),
             ),
