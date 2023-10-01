@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/dashboard.dart';
 import 'package:gp/teacher_dashboard/teacher_dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,8 +32,8 @@ class GPAuthCubit extends Cubit<AuthState> {
 
     if (status) {
       emit(state.copySingleProperty('isLoading', false));
-      //context.go('/');
-       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Dashboard()));
+      context.go('/');
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Dashboard()));
       //go for dashboard
     } else {
       emit(state.copySingleProperty('isLoading', false));

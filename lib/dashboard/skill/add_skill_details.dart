@@ -150,7 +150,7 @@ class AddSkillDetails extends StatelessWidget {
                   onPressed: () {
                     context
                         .read<AddSkillDetailsCubit>()
-                        .sendValidationRequest(context, skillID!);
+                        .sendValidationRequest(context, skillID!, skillName!);
                   },
                   child: const Text('Send Verification request'),
                 ),

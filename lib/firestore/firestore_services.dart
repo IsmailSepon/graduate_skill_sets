@@ -93,6 +93,7 @@ class FireStoreService {
   }
 
   String getSkillName(String skillID) {
+    print('skillID: $skillID');
     String skillName = '';
     CollectionReference departmentCollection =
         FirebaseFirestore.instance.collection('skill');

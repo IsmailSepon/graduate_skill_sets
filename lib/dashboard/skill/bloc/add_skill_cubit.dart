@@ -20,7 +20,7 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
   }
 
   Future<void> sendValidationRequest(
-      BuildContext context, String skillID) async {
+      BuildContext context, String skillID, String skillName) async {
     // final uid = FirebaseAuth.instance.currentUser!.uid;
     emit(state.copySingleProperty('isLoading', true));
 
@@ -32,11 +32,11 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
     );
      await FirebaseDynamicLinkService.generateValidationRequest(validation).then(
         (validationLink) =>
-            sendEmailToCourseLeader(context, skillID, validationLink));
+            sendEmailToCourseLeader(context, skillID, validationLink, skillName));
   }
 
   sendEmailToCourseLeader(
-      BuildContext context, String skillID, String validationLink) async {
+      BuildContext context, String skillID, String validationLink, String skillName) async {
     if (validationLink.isEmpty || skillID.isEmpty) {
       showErrorDialog(context, 'Information Missing', 'Please try again later');
     } else {
@@ -51,7 +51,7 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
       );
 
 
-      String skillName = FireStoreService().getSkillName(skillID);
+      //String skillName = FireStoreService().getSkillName(skillID);
 
       bool status = FireStoreService().sendValidation(
           state.courseName,
@@ -66,8 +66,8 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
       if (status) {
 
         await FlutterEmailSender.send(email);
-        // context.go('/');
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
+        context.go('/');
+        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
       }else{
         showErrorDialog(context, 'Problem', 'there was a problem sending the request, please try again later');
       }
