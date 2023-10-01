@@ -1,4 +1,7 @@
-# gp
+# gp(Graduate Profile)
+![Staffs-Uni-Red-Logo-Digital-Version-1](https://github.com/IsmailSepon/graduate_skill_sets/assets/21272737/c15c60f5-a987-4d44-99be-94a61c3ef559)
+
+![Graduate Profile Icon](https://github.com/IsmailSepon/graduate_skill_sets/assets/21272737/468a68ae-2e5b-42e3-81c7-e309d5c9e516)
 
 Design And Development of a Graduate Skill Sets.
 
