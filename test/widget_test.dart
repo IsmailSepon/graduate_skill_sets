@@ -1,55 +1,68 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gp/auth/model/skill_model.dart';
 import 'package:gp/auth/model/university_model.dart';
-import 'package:gp/auth/repo/auth_repository.dart';
-import 'package:gp/firebase_options.dart';
-
-import 'package:gp/main.dart';
-
-Future<void> main() async {
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // runApp(const MyApp());
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+import 'package:gp/firestore/firestore_services.dart'; // Import your authentication service
+import 'package:mockito/mockito.dart';
 
 
-  test('Student Registration', () async {
-    // Initialize Firebase
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+class MockFireStoreService extends Mock implements FireStoreService {}
 
-    // Create a mock University object
-    University university = University(name: 'Test University', id: '1234567890');
+void main() {
+  group('registerWithEmailAndPassword', () {
+    test('getUniversity', () async {
+      final mockFireStoreService = MockFireStoreService();
 
-    // Create an instance of your AuthRepository
-    AuthRepository repository = AuthRepository(); // Replace with your actual repository
+      // Mock the behavior of getUniversityList
+      when(mockFireStoreService.getUniversityList()).thenAnswer((_) async {
+        // Return a sample list of universities
+        return [
+          const University(id: '1', name: 'University A'),
+          const University(id: '2', name: 'University B'),
+          // Add more universities as needed
+        ];
+      });
 
-    // Perform the registration test
-    bool test = await repository.registerWithEmailAndPassword(
-      'test@gmail.com',
-      '123456789',
-      university,
-      'Computer Science',
-      '1234567890',
-      '${DateTime.now()}',
-      'Test User',
-    );
+      // Call the method you want to test
+      final result = await mockFireStoreService.getUniversityList();
 
-    // Assert the test result
-    expect(test, true);
+      // Expect the result to be a list of universities
+      expect(result, isA<List<University>>());
 
-    // Print the test result
-    print('Student Registration Test $test');
+      // You can also check specific elements in the list if needed
+      expect(result, hasLength(2)); // Assuming two universities were returned
+      expect(result[0].name, 'University A');
+      expect(result[1].name, 'University B');
+    });
+
+    test('getSkill', () async {
+      final mockFireStoreService = MockFireStoreService();
+
+      // Mock the behavior of getUniversityList
+      when(mockFireStoreService.getSkillNameList()).thenAnswer((_) async {
+        // Return a sample list of universities
+        return [
+          const SkillModel(id: '1', name: 'Skill A'),
+          const SkillModel(id: '2', name: 'Skill B'),
+          // Add more universities as needed
+        ];
+      });
+
+      // Call the method you want to test
+      final result = await mockFireStoreService.getSkillNameList();
+
+      // Expect the result to be a list of universities
+      expect(result, isA<List<University>>());
+
+      // You can also check specific elements in the list if needed
+      expect(result, hasLength(2)); // Assuming two universities were returned
+      expect(result[0].name, 'skill A');
+      expect(result[1].name, 'skill B');
+    });
+
+
+
+
+
   });
 }
-

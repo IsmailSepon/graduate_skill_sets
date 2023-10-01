@@ -12,6 +12,8 @@ import 'package:gp/component/app_theme.dart';
 import 'package:gp/dashboard/profile/profile.dart';
 import 'package:gp/dashboard/skill/model/skill.dart';
 import 'package:gp/firestore/firestore_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../teacher_dashboard/teacher_dashboard.dart';
 import 'home/home_page.dart';
 import 'package:pdf/widgets.dart' as pdfLib;
 import 'package:document_file_save_plus/document_file_save_plus.dart';
@@ -26,6 +28,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
   bool isResumeLoading = false;
+  final role = getRole();
+
   void _onItemTapped(int index) {
     setState(() {
       print('index: $index');
@@ -41,17 +45,30 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    return FutureBuilder<int>(
+      future: getRole(), // Assuming getRole() returns a Future<int>.
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While the Future is still loading, show a loading indicator.
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // If there's an error, handle it here.
+          return Text('Error: ${snapshot.error}');
+        } else if (user != null) {
+          final int role = snapshot.data ?? 0;
+          if (role == 1) {
+            return const TeacherDashBoard();
+          } else {
 
-      return Scaffold(
-          // appBar: AppBar(
-          //   title: Text(DateFormat('dd-MMMM').format(DateTime.now())),
-          // ),
-          body: _pages[_selectedIndex],
-          // _pages[_selectedIndex],
-          floatingActionButton: isResumeLoading
-              ? const CircularProgressIndicator()
-              : FloatingActionButton(
+            return Scaffold(
+              // appBar: AppBar(
+              //   title: Text(DateFormat('dd-MMMM').format(DateTime.now())),
+              // ),
+                body: _pages[_selectedIndex],
+                // _pages[_selectedIndex],
+                floatingActionButton: isResumeLoading
+                    ? const CircularProgressIndicator()
+                    : FloatingActionButton(
                   onPressed: () {
                     // Add your onPressed code here!
                     _openPopup(context);
@@ -59,49 +76,53 @@ class _DashboardState extends State<Dashboard> {
                   backgroundColor: Colors.blue,
                   child: const Icon(Icons.add),
                 ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            notchMargin: 7,
-            child: SizedBox(
-              height: 60,
-              child: Row(
-                // This is main Axis
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      _onItemTapped(0);
-                    },
-                    child: Icon(
-                      Icons.home,
-                      color: _selectedIndex == 0 ? Colors.blue : Colors.grey,
+                floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+                bottomNavigationBar: BottomAppBar(
+                  shape: const CircularNotchedRectangle(),
+                  notchMargin: 7,
+                  child: SizedBox(
+                    height: 60,
+                    child: Row(
+                      // This is main Axis
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        MaterialButton(
+                          minWidth: 40,
+                          onPressed: () {
+                            _onItemTapped(0);
+                          },
+                          child: Icon(
+                            Icons.home,
+                            color: _selectedIndex == 0 ? Colors.blue : Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        MaterialButton(
+                          minWidth: 40,
+                          onPressed: () {
+                            _onItemTapped(1);
+                          },
+                          child: Icon(
+                            Icons.person,
+                            color: _selectedIndex == 1 ? Colors.blue : Colors.grey,
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 40,
-                  ),
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      _onItemTapped(1);
-                    },
-                    child: Icon(
-                      Icons.person,
-                      color: _selectedIndex == 1 ? Colors.blue : Colors.grey,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ));
-    } else {
-      // User is not logged in, navigate to login screen
-      return const LoginPage();
-    }
+                ));
+          }
+        } else {
+          // User is not logged in, navigate to the login screen.
+          return const LoginPage();
+        }
+      },
+    );
   }
+
 
   void _openPopup(BuildContext context) {
     final RenderBox fabRenderBox = context.findRenderObject() as RenderBox;
@@ -320,12 +341,6 @@ class _DashboardState extends State<Dashboard> {
     DocumentFileSavePlus()
         .saveFile(pdfBytes, "my_resume.pdf", "appliation/pdf");
 
-    // final dir = await getApplicationDocumentsDirectory();
-    // final file = File("${dir.path}/${'my_resume.pdf'}");
-    //
-    // await file.writeAsBytes(pdfBytes);
-    // final url = file.path;
-    // print('url: $url');
     Fluttertoast.showToast(
       msg: "Please Check Your Download Folder!",
       toastLength: Toast.LENGTH_SHORT, // Duration for how long the toast should be displayed
@@ -337,11 +352,6 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       isResumeLoading = false;
     });
-     // context.go('/resume/${url.toString()}');
-
-    // context.go('/skillValidation/$studentId/$skillId');
-
-    //context.go('/resume/${url}');
   }
 
   void showErrorDialog(BuildContext context) {
@@ -363,4 +373,10 @@ class _DashboardState extends State<Dashboard> {
     ).show();
 
   }
+}
+
+Future<int> getRole() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final int role = prefs.getInt('role') ?? 0;
+  return role;
 }

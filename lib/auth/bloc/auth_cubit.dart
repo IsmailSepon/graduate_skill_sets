@@ -2,9 +2,9 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gp/dashboard/dashboard.dart';
 import 'package:gp/teacher_dashboard/teacher_dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../repo/auth_repository.dart';
 import 'auth_state.dart';
 
@@ -71,15 +71,17 @@ class GPAuthCubit extends Cubit<AuthState> {
 
     if (user != null && user.email != null) {
       emit(state.copySingleProperty('isLoading', false));
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       //go for dashboard
       if(role ==0){
-       // Navigator.pushReplacementNamed(context, '/');
-         //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Dashboard()));
-        // Navigator.pushReplacement(
-        //   context,MaterialPageRoute(builder: (context) => const Dashboard()),);
-         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
+        prefs.setInt('role', 0);
+        Navigator.pushReplacement(
+           context,MaterialPageRoute(builder: (context) => const Dashboard()),);
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  Dashboard()));
         //context.go('/');
       }else{
+
+        prefs.setInt('role', 1);
         // context.go('/teacherDashboard');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TeacherDashBoard()));
       }
