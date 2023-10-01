@@ -6,7 +6,6 @@ import 'bloc/add_skill_details_state.dart';
 
 class AddSkillDetails extends StatelessWidget {
   final String? skillID;
-
   final String? skillName;
 
   const AddSkillDetails(

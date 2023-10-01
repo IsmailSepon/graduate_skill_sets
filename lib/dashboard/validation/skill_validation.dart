@@ -76,6 +76,13 @@ class _SkillValidationState extends State<SkillValidation> {
             ValidationCubit(skillID: widget.skillID, studentID: widget.studentID),
         child: BlocBuilder<ValidationCubit, ValidationState>(
             builder: (context, state) {
+
+              if(state.skill.verifyStatus == false){
+                return Scaffold( appBar: AppBar(
+                  title: const Text('Skill Validation Request'),
+                ), body: const Center(child: Text('This skill is already verified!')));
+              }
+
               return Scaffold(
                 appBar: AppBar(
                   title: const Text('Skill Validation Request'),

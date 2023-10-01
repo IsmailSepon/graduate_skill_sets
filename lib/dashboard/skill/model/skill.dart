@@ -48,6 +48,7 @@ class Skill extends Equatable {
       json['examResult'],
       json['courseLeaderName'],
     );
+    print('skill request: $skill');
     return skill;
   }
 
@@ -67,6 +68,7 @@ class Skill extends Equatable {
       snap['examResult'],
       snap['courseLeaderName'],
     );
+    print('skill request: $skill');
     return skill;
   }
   static Skill fromSnapshot(Map<String, dynamic> snap) {

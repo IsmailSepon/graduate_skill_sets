@@ -112,7 +112,7 @@ class FireStoreService {
       String additionalMessage,
       String courseWork,
       String project,
-      String courseLeaderName, String skillName) {
+      String courseLeaderName, String skillName, String skillID) {
     final uid = FirebaseAuth.instance.currentUser!.uid;
 
     Skill skill = Skill(
@@ -132,7 +132,7 @@ class FireStoreService {
 
     CollectionReference departmentCollection =
         FirebaseFirestore.instance.collection('student');
-    departmentCollection.doc(uid).collection('skills').add(skill.toJson());
+    departmentCollection.doc(uid).collection('skills').doc(skillID).set(skill.toJson());
 
     return true;
     // stream: FirebaseFirestore.instance.collection('student').doc(uid).collection('skills').snapshots(),
@@ -167,6 +167,7 @@ class FireStoreService {
         .doc(skillID)
         .get();
 
+    print('doc: $doc' );
     if (doc.exists) {
       skill = Skill.fromDocumentSnapshot(doc);
       print('skill: $skill');

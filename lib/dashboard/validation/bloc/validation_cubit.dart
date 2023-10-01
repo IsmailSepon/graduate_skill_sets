@@ -28,7 +28,7 @@ class ValidationCubit extends Cubit<ValidationState> {
   Future<void> fetchStudentSkillData(String studentID, String skillID) async {
 
     FireStoreService fireStoreService = FireStoreService();
-    fireStoreService.getStudentDetails(studentID);
+    // fireStoreService.getStudentDetails(studentID);
 
     StudentAuthModel student = await fireStoreService.getStudentDetails(studentID);
     emit(state.copySingleProperty('student', Student(email: student.email, name: student.name, department: student.department, studentId: student.studentId)));

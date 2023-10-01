@@ -21,6 +21,7 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
 
   Future<void> sendValidationRequest(
       BuildContext context, String skillID, String skillName) async {
+    print('skillID: $skillID');
     // final uid = FirebaseAuth.instance.currentUser!.uid;
     emit(state.copySingleProperty('isLoading', true));
 
@@ -60,7 +61,7 @@ class AddSkillDetailsCubit extends Cubit<AddSkillDetailsState> {
           state.additionalMessage,
           state.courseWork,
           state.project,
-          state.courseLeaderName, skillName);
+          state.courseLeaderName, skillName, skillID);
 
 
       if (status) {

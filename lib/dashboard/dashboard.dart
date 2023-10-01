@@ -13,6 +13,7 @@ import 'package:gp/dashboard/profile/profile.dart';
 import 'package:gp/dashboard/skill/model/skill.dart';
 import 'package:gp/firestore/firestore_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../component/set_carrier_goal.dart';
 import '../teacher_dashboard/teacher_dashboard.dart';
 import 'home/home_page.dart';
 import 'package:pdf/widgets.dart' as pdfLib;
@@ -153,6 +154,10 @@ class _DashboardState extends State<Dashboard> {
           child: const Text('Set/Edit your Carrier Goal'),
           onTap: () {
             print('Add new Skill 2');
+            setState(() {
+              _selectedIndex = 1;
+            });
+
           },
         ),
         PopupMenuItem(
